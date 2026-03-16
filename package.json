@@ -1,28 +1,36 @@
 {
-	"name": "calqnotes",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "tsc -b && vite build",
-		"lint": "biome check .",
-		"lint:fix": "biome check --write .",
-		"preview": "vite preview"
-	},
-	"dependencies": {
-		"react": "^19.2.4",
-		"react-dom": "^19.2.4"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.4.7",
-		"@types/node": "^24.12.0",
-		"@types/react": "^19.2.14",
-		"@types/react-dom": "^19.2.3",
-		"@vitejs/plugin-react": "^6.0.0",
-		"globals": "^17.4.0",
-		"typescript": "~5.9.3",
-		"vite": "^8.0.0",
-		"vite-plugin-biome": "^1.2.0"
-	}
+  "name": "calqnotes",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write",
+    "format": "biome format --write",
+    "check": "biome check",
+		"check:fix": "biome check --write",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.7",
+    "@types/node": "^24.12.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.0",
+    "globals": "^17.4.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0",
+    "vite-plugin-biome": "^1.2.0"
+  },
+  "overrides": {
+    "@tailwindcss/vite": {
+      "vite": "^8.0.0"
+    }
+  }
 }
