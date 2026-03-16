@@ -1,5 +1,13 @@
 # Правила написания кода
 
+## Спецификация
+
+**Все изменения в коде должны отражаться в спецификации** (`spec/`):
+
+- Добавили фичу — обновите requirements.md, ui.md и т.д.
+- Реализовали что-то — отметьте в соответствующем spec-файле.
+- Удалили или изменили — обновите spec.
+
 ## Feature-Sliced Design (FSD)
 
 Проект использует [Feature-Sliced Design](https://feature-sliced.github.io/documentation/ru/) для организации кода. Цель — минимизировать разбросанность, чётко разделить ответственность, упростить навигацию.
@@ -18,9 +26,9 @@ app → pages → widgets → features → entities → shared
 src/
 ├── components/          # shadcn UI-компоненты (Button, Input и т.д.)
 │   └── ui/              # импорт: @/components/ui/...
-├── app/                 # Точка входа, провайдеры, глобальные стили
-│   ├── entrypoint/
+├── app/                 # Точка входа, провайдеры, стор
 │   ├── providers/
+│   ├── store/           # Zustand store
 │   └── styles/
 ├── pages/               # Страницы приложения
 │   └── notebook/
@@ -30,8 +38,7 @@ src/
 │   └── notebook-editor/
 ├── features/           # Действия пользователя (переиспользуемые)
 │   ├── save-document/
-│   ├── create-document/
-│   └── edit-line/
+│   └── create-document/
 ├── entities/           # Бизнес-сущности
 │   ├── document/
 │   └── line/

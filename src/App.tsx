@@ -1,7 +1,9 @@
+import { NotebookPage } from "@/pages/notebook";
+
 function App() {
 	return (
-		<main className="flex min-h-svh items-center justify-center">
-			<h1 className="text-2xl font-medium text-muted-foreground">calqnotes</h1>
+		<main className="min-h-svh">
+			<NotebookPage />
 		</main>
 	);
 }

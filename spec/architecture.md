@@ -2,20 +2,21 @@
 
 ## Состояние системы
 
+- **Zustand** — стейт-менеджер для приложения
+
 ```
-AppState
+NotebookStore (zustand)
   documents: Document[]
-  activeDocumentId: string
-  notebooks: Record<string, Notebook>  // id -> lines
-  scope: Record<string, number>
-  dependencyGraph
+  activeDocumentId: string | null
+  content: Record<string, string>   // docId -> raw text (строки через \n)
+  sortOrder: Record<string, number>
+  initialized: boolean
 ```
 
 ```
 Document
   id: string
   name: string
-  notebookId: string  // или lines хранятся в document
   isDirty: boolean
 ```
 
