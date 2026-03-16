@@ -16,6 +16,8 @@ app → pages → widgets → features → entities → shared
 
 ```
 src/
+├── components/          # shadcn UI-компоненты (Button, Input и т.д.)
+│   └── ui/              # импорт: @/components/ui/...
 ├── app/                 # Точка входа, провайдеры, глобальные стили
 │   ├── entrypoint/
 │   ├── providers/
@@ -34,7 +36,6 @@ src/
 │   ├── document/
 │   └── line/
 └── shared/             # Переиспользуемый код без бизнес-логики
-    ├── ui/             # UI-кит (shadcn и т.д.)
     ├── lib/             # Утилиты, хелперы, injectTranslation
     ├── api/             # API-клиент (если есть бэкенд)
     ├── config/          # Конфигурация
@@ -83,9 +84,12 @@ entities/line/
 - Хуки для переиспользуемой логики
 - Компоненты в `ui/`, логика в `model/` или хуках
 
-### Стили
+### Стили и UI
 
-- Tailwind + shadcn
+- **Tailwind + shadcn** — основа стилей и компонентов
+- Добавление: `npx shadcn@latest add <component>`
+- Компоненты в `src/components/ui/` (настроено в `components.json`)
+- Импорт: `@/components/ui/button`, `@/components/ui/input` и т.д.
 - Без inline-стилей, кроме динамических значений
 - Глобальные стили в `app/styles/`
 
