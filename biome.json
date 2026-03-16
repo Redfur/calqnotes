@@ -26,6 +26,11 @@
 		},
 		"includes": ["**", "!dist", "!node_modules", "!public", "!package-lock.json"]
 	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
