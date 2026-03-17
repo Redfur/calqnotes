@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect } from "react";
 import type { EvaluatedLine } from "@/entities/line";
 import { SaveButton } from "@/features/save-document";
 import { cn } from "@/shared/lib/utils";
@@ -46,9 +46,6 @@ export function NotebookEditor({
 	activeDocumentDirty,
 	onSave,
 }: NotebookEditorProps) {
-	const editorRef = useRef<HTMLTextAreaElement>(null);
-	const [cursorLine, setCursorLine] = useState(0);
-
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent) => {
 			if ((e.ctrlKey || e.metaKey) && e.key === "s") {
@@ -59,21 +56,13 @@ export function NotebookEditor({
 		[onSave],
 	);
 
-	const updateCursorLine = useCallback(() => {
-		const el = editorRef.current;
-		if (!el) return;
-		const line = value.slice(0, el.selectionStart).split("\n").length - 1;
-		setCursorLine(Math.max(0, line));
-	}, [value]);
-
 	useEffect(() => {
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [handleKeyDown]);
 
-	useEffect(() => {
-		updateCursorLine();
-	}, [value, updateCursorLine]);
+	const lines = value.split("\n");
+	const minLines = Math.max(lines.length, 1);
 
 	if (!activeDocumentId) {
 		return (
@@ -83,12 +72,9 @@ export function NotebookEditor({
 		);
 	}
 
-	const lines = value.split("\n");
-	const minLines = Math.max(lines.length, 1);
-
 	return (
-		<div className="flex min-h-0 flex-1 flex-col">
-			<div className="flex shrink-0 items-center justify-end border-b border-border p-2">
+		<div className="flex min-h-0 flex-1 flex-col bg-[var(--code-bg)]">
+			<div className="flex shrink-0 items-center justify-end px-3 py-1.5">
 				<SaveButton onSave={onSave} isDirty={activeDocumentDirty} />
 			</div>
 			<div className="flex min-h-0 flex-1 flex-col overflow-auto">
@@ -110,11 +96,7 @@ export function NotebookEditor({
 						{evaluatedLines.map((line, index) => (
 							<div
 								key={line.id}
-								className={cn(
-									"flex min-w-0 gap-4 px-1 -mx-1 rounded-sm",
-									index % 2 === 1 && "bg-muted/30",
-									cursorLine === index && "bg-accent/20 ring-1 ring-inset ring-accent/30",
-								)}
+								className={cn("flex min-w-0 gap-4 px-2 -mx-2", index % 2 === 1 && "bg-black/[0.02]")}
 								style={{ minHeight: `${LINE_HEIGHT_EM}em` }}
 							>
 								<span className="min-w-0 flex-1 overflow-hidden whitespace-pre">
@@ -128,18 +110,13 @@ export function NotebookEditor({
 							</div>
 						))}
 					</div>
-					{/* Textarea */}
 					<textarea
-						ref={editorRef}
 						value={value}
 						onChange={(e) => onChange(e.target.value)}
-						onSelect={updateCursorLine}
-						onKeyUp={updateCursorLine}
-						onClick={updateCursorLine}
 						placeholder=""
 						className={cn(
 							"absolute inset-0 w-full resize-none border-0 bg-transparent font-mono text-sm outline-none",
-							"caret-foreground text-transparent selection:bg-primary/20",
+							"caret-foreground text-transparent selection:bg-primary/30",
 						)}
 						style={{
 							padding: PADDING,

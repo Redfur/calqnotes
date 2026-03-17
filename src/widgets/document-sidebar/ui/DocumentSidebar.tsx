@@ -43,12 +43,12 @@ export function DocumentSidebar({
 	const canDelete = documents.length > 1;
 
 	return (
-		<aside className="flex w-56 shrink-0 flex-col border-r border-border bg-sidebar">
-			<div className="flex flex-col gap-2 border-b border-border p-2">
-				<span className="text-sm font-medium text-muted-foreground">{t("documents")}</span>
+		<aside className="flex w-56 shrink-0 flex-col bg-sidebar/50">
+			<div className="flex flex-col gap-2 px-3 py-2">
+				<span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("documents")}</span>
 				<CreateDocumentButton onCreate={onCreate} />
 			</div>
-			<nav className="flex-1 overflow-auto p-2">
+			<nav className="flex-1 overflow-auto px-2 py-1">
 				<ul className="space-y-1">
 					{documents.map((doc) => {
 						const isActive = doc.id === activeDocumentId;
@@ -68,7 +68,7 @@ export function DocumentSidebar({
 												setEditName("");
 											}
 										}}
-										className="h-7 flex-1 rounded border border-input bg-background px-2 text-sm"
+										className="h-7 flex-1 rounded bg-background/80 px-2 text-sm outline-none ring-1 ring-transparent focus:ring-input"
 									/>
 								) : (
 									<button
@@ -77,7 +77,9 @@ export function DocumentSidebar({
 										onDoubleClick={() => handleStartRename(doc.id, doc.name)}
 										className={cn(
 											"flex flex-1 items-center gap-1 truncate rounded px-2 py-1.5 text-left text-sm",
-											isActive ? "bg-sidebar-accent text-sidebar-accent-foreground" : "hover:bg-sidebar-accent/50",
+											isActive
+												? "bg-muted/80 text-foreground"
+												: "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
 										)}
 									>
 										{doc.isDirty && <span className="text-destructive">•</span>}

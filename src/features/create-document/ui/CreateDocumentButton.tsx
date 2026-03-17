@@ -10,7 +10,7 @@ interface CreateDocumentButtonProps {
 export function CreateDocumentButton({ onCreate }: CreateDocumentButtonProps) {
 	const { t } = useTranslation(TRANS_NS);
 	return (
-		<Button onClick={onCreate} variant="outline" size="sm">
+		<Button onClick={onCreate} variant="ghost" size="sm">
 			<Plus className="size-4" />
 			{t("newDocument")}
 		</Button>

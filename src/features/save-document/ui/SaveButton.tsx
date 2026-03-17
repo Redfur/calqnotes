@@ -11,7 +11,7 @@ interface SaveButtonProps {
 export function SaveButton({ onSave, disabled, isDirty }: SaveButtonProps) {
 	const { t } = useTranslation(TRANS_NS);
 	return (
-		<Button onClick={onSave} disabled={disabled || !isDirty} size="sm">
+		<Button onClick={onSave} disabled={disabled || !isDirty} variant="ghost" size="sm">
 			{t("save")}
 		</Button>
 	);

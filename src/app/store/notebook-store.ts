@@ -13,6 +13,8 @@ import { generateId } from "@/shared/lib/id";
 
 const LAST_ACTIVE_DOC_KEY = "calqnotes-last-active-doc";
 
+let initPromise: Promise<void> | null = null;
+
 function textToLines(text: string): Line[] {
 	return text.split("\n").map((input, i) => ({ id: `line-${i}`, input }));
 }
@@ -48,48 +50,53 @@ export const useNotebookStore = create<NotebookState & NotebookActions>((set, ge
 
 	initialize: async () => {
 		if (get().initialized) return;
-		const docs = await loadDocuments();
-		if (docs.length === 0) {
-			const id = generateId();
-			const name = "Без названия 1";
-			const sortOrder = Date.now();
-			await createDocInStorage(id, name, [], sortOrder);
-			set({
-				documents: [{ id, name, isDirty: false }],
-				activeDocumentId: id,
-				content: { [id]: "" },
-				sortOrder: { [id]: sortOrder },
-				initialized: true,
-			});
-		} else {
-			const docList: Document[] = docs.map((d) => ({
-				id: d.id,
-				name: d.name,
-				isDirty: false,
-			}));
-			const content: Record<string, string> = {};
-			const sortOrderMap: Record<string, number> = {};
-			docs.forEach((d, idx) => {
-				content[d.id] = linesToText(d.lines);
-				sortOrderMap[d.id] = d.sortOrder ?? idx * 1000;
-			});
-			let activeId = docList[0]?.id ?? null;
-			try {
-				const lastId = localStorage.getItem(LAST_ACTIVE_DOC_KEY);
-				if (lastId && docList.some((d) => d.id === lastId)) {
-					activeId = lastId;
+		if (!initPromise) {
+			initPromise = (async () => {
+				const docs = await loadDocuments();
+				if (docs.length === 0) {
+					const id = generateId();
+					const name = "Без названия 1";
+					const sortOrder = Date.now();
+					await createDocInStorage(id, name, [], sortOrder);
+					set({
+						documents: [{ id, name, isDirty: false }],
+						activeDocumentId: id,
+						content: { [id]: "" },
+						sortOrder: { [id]: sortOrder },
+						initialized: true,
+					});
+				} else {
+					const docList: Document[] = docs.map((d) => ({
+						id: d.id,
+						name: d.name,
+						isDirty: false,
+					}));
+					const content: Record<string, string> = {};
+					const sortOrderMap: Record<string, number> = {};
+					docs.forEach((d, idx) => {
+						content[d.id] = linesToText(d.lines);
+						sortOrderMap[d.id] = d.sortOrder ?? idx * 1000;
+					});
+					let activeId = docList[0]?.id ?? null;
+					try {
+						const lastId = localStorage.getItem(LAST_ACTIVE_DOC_KEY);
+						if (lastId && docList.some((d) => d.id === lastId)) {
+							activeId = lastId;
+						}
+					} catch {
+						/* ignore */
+					}
+					set({
+						documents: docList,
+						activeDocumentId: activeId,
+						content,
+						sortOrder: sortOrderMap,
+						initialized: true,
+					});
 				}
-			} catch {
-				/* ignore */
-			}
-			set({
-				documents: docList,
-				activeDocumentId: activeId,
-				content,
-				sortOrder: sortOrderMap,
-				initialized: true,
-			});
+			})();
 		}
+		await initPromise;
 	},
 
 	setActiveDocument: async (id: string | null) => {
