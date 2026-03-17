@@ -1,7 +1,10 @@
 import { useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import type { EvaluatedLine } from "@/entities/line";
 import { SaveButton } from "@/features/save-document";
+import { ThemeToggle } from "@/features/theme-toggle";
 import { cn } from "@/shared/lib/utils";
+import { TRANS_NS } from "..";
 import { tokenize } from "../lib/syntax-highlight";
 
 interface NotebookEditorProps {
@@ -46,6 +49,7 @@ export function NotebookEditor({
 	activeDocumentDirty,
 	onSave,
 }: NotebookEditorProps) {
+	const { t } = useTranslation(TRANS_NS);
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent) => {
 			if ((e.ctrlKey || e.metaKey) && e.key === "s") {
@@ -65,16 +69,13 @@ export function NotebookEditor({
 	const minLines = Math.max(lines.length, 1);
 
 	if (!activeDocumentId) {
-		return (
-			<div className="flex flex-1 items-center justify-center text-muted-foreground">
-				Выберите или создайте документ
-			</div>
-		);
+		return <div className="flex flex-1 items-center justify-center text-muted-foreground">{t("selectOrCreate")}</div>;
 	}
 
 	return (
 		<div className="flex min-h-0 flex-1 flex-col bg-[var(--code-bg)]">
-			<div className="flex shrink-0 items-center justify-end px-3 py-1.5">
+			<div className="flex shrink-0 items-center justify-end gap-1 px-3 py-1.5">
+				<ThemeToggle />
 				<SaveButton onSave={onSave} isDirty={activeDocumentDirty} />
 			</div>
 			<div className="flex min-h-0 flex-1 flex-col overflow-auto">

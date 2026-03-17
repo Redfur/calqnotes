@@ -29,6 +29,10 @@ app/ → pages/ → widgets/ → features/ → entities/ → shared
 
 Каждый слайс экспортирует через `index.ts`. Импорт снаружи: `@/entities/line`, не `@/entities/line/ui/LineRow`.
 
+## TypeScript
+
+Не использовать `as` там, где это не нужно — полагаться на вывод типов и перегрузки.
+
 ## Именование
 
 - Компоненты: PascalCase

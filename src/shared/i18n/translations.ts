@@ -6,5 +6,6 @@ export const commonTranslations = {
 		create: "Создать",
 		rename: "Переименовать",
 		untitled: "Без названия",
+		untitledN: "Без названия {{n}}",
 	},
 } as const;

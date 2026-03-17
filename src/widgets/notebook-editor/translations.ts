@@ -1,3 +1,5 @@
 export const notebookEditorTranslations = {
-	ru: {},
+	ru: {
+		selectOrCreate: "Выберите или создайте документ",
+	},
 } as const;

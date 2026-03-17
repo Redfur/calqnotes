@@ -9,6 +9,7 @@ import {
 	loadDocuments,
 	saveDocument as saveDocToStorage,
 } from "@/shared/api/storage";
+import { i18n } from "@/shared/lib/i18n";
 import { generateId } from "@/shared/lib/id";
 
 const LAST_ACTIVE_DOC_KEY = "calqnotes-last-active-doc";
@@ -55,7 +56,7 @@ export const useNotebookStore = create<NotebookState & NotebookActions>((set, ge
 				const docs = await loadDocuments();
 				if (docs.length === 0) {
 					const id = generateId();
-					const name = "Без названия 1";
+					const name = i18n.t("common:untitledN", { n: 1 });
 					const sortOrder = Date.now();
 					await createDocInStorage(id, name, [], sortOrder);
 					set({
@@ -147,8 +148,8 @@ export const useNotebookStore = create<NotebookState & NotebookActions>((set, ge
 		const { documents, content, sortOrder } = get();
 		const used = new Set(documents.map((d) => d.name));
 		let n = 1;
-		while (used.has(`Без названия ${n}`)) n++;
-		const name = `Без названия ${n}`;
+		while (used.has(i18n.t("common:untitledN", { n }))) n++;
+		const name = i18n.t("common:untitledN", { n });
 		const id = generateId();
 		const order = Date.now();
 		await createDocInStorage(id, name, [], order);
