@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useEvaluatedLines, useNotebookStore } from "@/app/store/notebook-store";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { DocumentSidebar } from "@/widgets/document-sidebar";
 import { NotebookEditor } from "@/widgets/notebook-editor";
 
@@ -42,7 +43,7 @@ export function NotebookPage() {
 	};
 
 	return (
-		<div className="flex h-svh min-h-0">
+		<SidebarProvider>
 			<DocumentSidebar
 				documents={documents}
 				activeDocumentId={activeDocumentId}
@@ -51,14 +52,16 @@ export function NotebookPage() {
 				onDelete={deleteDocument}
 				onRename={renameDocument}
 			/>
-			<NotebookEditor
-				value={currentContent}
-				onChange={(text) => activeDocumentId && setContent(activeDocumentId, text)}
-				evaluatedLines={evaluatedLines}
-				activeDocumentId={activeDocumentId}
-				activeDocumentDirty={activeDoc?.isDirty ?? false}
-				onSave={handleSave}
-			/>
-		</div>
+			<SidebarInset>
+				<NotebookEditor
+					value={currentContent}
+					onChange={(text) => activeDocumentId && setContent(activeDocumentId, text)}
+					evaluatedLines={evaluatedLines}
+					activeDocumentId={activeDocumentId}
+					activeDocumentDirty={activeDoc?.isDirty ?? false}
+					onSave={handleSave}
+				/>
+			</SidebarInset>
+		</SidebarProvider>
 	);
 }

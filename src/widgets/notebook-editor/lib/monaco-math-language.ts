@@ -47,54 +47,54 @@ interface FunctionDef {
 }
 
 /** Monaco snippet placeholder: $ + {1:x} = ${1:x} */
-const snip = (s: string) => "$" + "{" + s + "}";
+const snip = (s: string) => `\${${s}}`;
 
 const MATH_FUNCTIONS_DEF: FunctionDef[] = [
 	{
 		name: "sin",
-		insertText: "sin(" + snip("1:x") + ")",
+		insertText: `sin(${snip("1:x")})`,
 		detail: "sin(x)",
 		documentation: "Синус угла в радианах",
 		params: [{ label: "x", documentation: "Угол в радианах" }],
 	},
 	{
 		name: "cos",
-		insertText: "cos(" + snip("1:x") + ")",
+		insertText: `cos(${snip("1:x")})`,
 		detail: "cos(x)",
 		documentation: "Косинус угла в радианах",
 		params: [{ label: "x", documentation: "Угол в радианах" }],
 	},
 	{
 		name: "tan",
-		insertText: "tan(" + snip("1:x") + ")",
+		insertText: `tan(${snip("1:x")})`,
 		detail: "tan(x)",
 		documentation: "Тангенс угла в радианах",
 		params: [{ label: "x", documentation: "Угол в радианах" }],
 	},
 	{
 		name: "asin",
-		insertText: "asin(" + snip("1:x") + ")",
+		insertText: `asin(${snip("1:x")})`,
 		detail: "asin(x)",
 		documentation: "Арксинус, результат в радианах",
 		params: [{ label: "x", documentation: "Значение от -1 до 1" }],
 	},
 	{
 		name: "acos",
-		insertText: "acos(" + snip("1:x") + ")",
+		insertText: `acos(${snip("1:x")})`,
 		detail: "acos(x)",
 		documentation: "Арккосинус, результат в радианах",
 		params: [{ label: "x", documentation: "Значение от -1 до 1" }],
 	},
 	{
 		name: "atan",
-		insertText: "atan(" + snip("1:x") + ")",
+		insertText: `atan(${snip("1:x")})`,
 		detail: "atan(x)",
 		documentation: "Арктангенс, результат в радианах",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "atan2",
-		insertText: "atan2(" + snip("1:y") + ", " + snip("2:x") + ")",
+		insertText: `atan2(${snip("1:y")}, ${snip("2:x")})`,
 		detail: "atan2(y, x)",
 		documentation: "Арктангенс y/x с учётом квадранта",
 		params: [
@@ -104,105 +104,105 @@ const MATH_FUNCTIONS_DEF: FunctionDef[] = [
 	},
 	{
 		name: "sinh",
-		insertText: "sinh(" + snip("1:x") + ")",
+		insertText: `sinh(${snip("1:x")})`,
 		detail: "sinh(x)",
 		documentation: "Гиперболический синус",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "cosh",
-		insertText: "cosh(" + snip("1:x") + ")",
+		insertText: `cosh(${snip("1:x")})`,
 		detail: "cosh(x)",
 		documentation: "Гиперболический косинус",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "tanh",
-		insertText: "tanh(" + snip("1:x") + ")",
+		insertText: `tanh(${snip("1:x")})`,
 		detail: "tanh(x)",
 		documentation: "Гиперболический тангенс",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "asinh",
-		insertText: "asinh(" + snip("1:x") + ")",
+		insertText: `asinh(${snip("1:x")})`,
 		detail: "asinh(x)",
 		documentation: "Гиперболический арксинус",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "acosh",
-		insertText: "acosh(" + snip("1:x") + ")",
+		insertText: `acosh(${snip("1:x")})`,
 		detail: "acosh(x)",
 		documentation: "Гиперболический арккосинус",
 		params: [{ label: "x", documentation: "Число ≥ 1" }],
 	},
 	{
 		name: "atanh",
-		insertText: "atanh(" + snip("1:x") + ")",
+		insertText: `atanh(${snip("1:x")})`,
 		detail: "atanh(x)",
 		documentation: "Гиперболический арктангенс",
 		params: [{ label: "x", documentation: "Значение от -1 до 1" }],
 	},
 	{
 		name: "sqrt",
-		insertText: "sqrt(" + snip("1:x") + ")",
+		insertText: `sqrt(${snip("1:x")})`,
 		detail: "sqrt(x)",
 		documentation: "Квадратный корень",
 		params: [{ label: "x", documentation: "Неотрицательное число" }],
 	},
 	{
 		name: "cbrt",
-		insertText: "cbrt(" + snip("1:x") + ")",
+		insertText: `cbrt(${snip("1:x")})`,
 		detail: "cbrt(x)",
 		documentation: "Кубический корень",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "abs",
-		insertText: "abs(" + snip("1:x") + ")",
+		insertText: `abs(${snip("1:x")})`,
 		detail: "abs(x)",
 		documentation: "Модуль числа",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "sign",
-		insertText: "sign(" + snip("1:x") + ")",
+		insertText: `sign(${snip("1:x")})`,
 		detail: "sign(x)",
 		documentation: "Знак числа: -1, 0 или 1",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "exp",
-		insertText: "exp(" + snip("1:x") + ")",
+		insertText: `exp(${snip("1:x")})`,
 		detail: "exp(x)",
 		documentation: "e в степени x",
 		params: [{ label: "x", documentation: "Показатель степени" }],
 	},
 	{
 		name: "log",
-		insertText: "log(" + snip("1:x") + ")",
+		insertText: `log(${snip("1:x")})`,
 		detail: "log(x)",
 		documentation: "Натуральный логарифм",
 		params: [{ label: "x", documentation: "Положительное число" }],
 	},
 	{
 		name: "log10",
-		insertText: "log10(" + snip("1:x") + ")",
+		insertText: `log10(${snip("1:x")})`,
 		detail: "log10(x)",
 		documentation: "Логарифм по основанию 10",
 		params: [{ label: "x", documentation: "Положительное число" }],
 	},
 	{
 		name: "log2",
-		insertText: "log2(" + snip("1:x") + ")",
+		insertText: `log2(${snip("1:x")})`,
 		detail: "log2(x)",
 		documentation: "Логарифм по основанию 2",
 		params: [{ label: "x", documentation: "Положительное число" }],
 	},
 	{
 		name: "min",
-		insertText: "min(" + snip("1:a") + ", " + snip("2:b") + ")",
+		insertText: `min(${snip("1:a")}, ${snip("2:b")})`,
 		detail: "min(a, b, ...)",
 		documentation: "Минимум из аргументов",
 		params: [
@@ -212,7 +212,7 @@ const MATH_FUNCTIONS_DEF: FunctionDef[] = [
 	},
 	{
 		name: "max",
-		insertText: "max(" + snip("1:a") + ", " + snip("2:b") + ")",
+		insertText: `max(${snip("1:a")}, ${snip("2:b")})`,
 		detail: "max(a, b, ...)",
 		documentation: "Максимум из аргументов",
 		params: [
@@ -222,21 +222,21 @@ const MATH_FUNCTIONS_DEF: FunctionDef[] = [
 	},
 	{
 		name: "floor",
-		insertText: "floor(" + snip("1:x") + ")",
+		insertText: `floor(${snip("1:x")})`,
 		detail: "floor(x)",
 		documentation: "Округление вниз",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "ceil",
-		insertText: "ceil(" + snip("1:x") + ")",
+		insertText: `ceil(${snip("1:x")})`,
 		detail: "ceil(x)",
 		documentation: "Округление вверх",
 		params: [{ label: "x", documentation: "Число" }],
 	},
 	{
 		name: "round",
-		insertText: "round(" + snip("1:x") + ")",
+		insertText: `round(${snip("1:x")})`,
 		detail: "round(x)",
 		documentation: "Округление до ближайшего целого",
 		params: [{ label: "x", documentation: "Число" }],
@@ -261,7 +261,7 @@ function extractUserVariables(model: editor.ITextModel, position: IPosition): { 
 			line = line.slice(0, position.column - 1);
 		}
 		line = line.split("#")[0].trim();
-		const match = line.match(new RegExp("^(" + IDENT + ")\\s*=\\s*(.*)$"));
+		const match = line.match(new RegExp(`^(${IDENT})\\s*=\\s*(.*)$`));
 		if (match) {
 			const name = match[1];
 			const value = match[2].trim();
@@ -324,7 +324,10 @@ export function registerCalqLanguage(monaco: Monaco): void {
 				[/#.*$/, "comment"],
 				[/\d+\.?\d*(?:e[+-]?\d+)?/i, "number"],
 				[/[+\-*/^=()[\]{},!<>=]|\./, "operator"],
-				[/[a-zA-Z_\u0400-\u04FF][a-zA-Z0-9_\u0400-\u04FF]*/, { cases: { "@keywords": "function", "@builtinVariables": "variable", "@default": "variable" } }],
+				[
+					/[a-zA-Z_\u0400-\u04FF][a-zA-Z0-9_\u0400-\u04FF]*/,
+					{ cases: { "@keywords": "function", "@builtinVariables": "variable", "@default": "variable" } },
+				],
 				[/\s+/, ""],
 			],
 		},
@@ -346,24 +349,28 @@ export function registerCalqLanguage(monaco: Monaco): void {
 				endColumn: position.column,
 			};
 
-			const builtinSuggestions = BUILTIN_VAR_DEFS.filter((v) => v.name.startsWith(prefix) || prefix === "").map((v) => ({
-				label: v.name,
-				kind: monaco.languages.CompletionItemKind.Variable,
-				insertText: v.name,
-				detail: v.name,
-				documentation: v.documentation,
-				range,
-			}));
+			const builtinSuggestions = BUILTIN_VAR_DEFS.filter((v) => v.name.startsWith(prefix) || prefix === "").map(
+				(v) => ({
+					label: v.name,
+					kind: monaco.languages.CompletionItemKind.Variable,
+					insertText: v.name,
+					detail: v.name,
+					documentation: v.documentation,
+					range,
+				}),
+			);
 
-			const functionSuggestions = MATH_FUNCTIONS_DEF.filter((f) => f.name.startsWith(prefix) || prefix === "").map((f) => ({
-				label: f.name,
-				kind: monaco.languages.CompletionItemKind.Function,
-				insertText: f.insertText,
-				insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-				detail: f.detail,
-				documentation: f.documentation,
-				range,
-			}));
+			const functionSuggestions = MATH_FUNCTIONS_DEF.filter((f) => f.name.startsWith(prefix) || prefix === "").map(
+				(f) => ({
+					label: f.name,
+					kind: monaco.languages.CompletionItemKind.Function,
+					insertText: f.insertText,
+					insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+					detail: f.detail,
+					documentation: f.documentation,
+					range,
+				}),
+			);
 
 			const userVars = extractUserVariables(model, position);
 			const variableSuggestions = userVars

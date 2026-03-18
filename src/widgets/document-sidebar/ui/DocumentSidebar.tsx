@@ -1,9 +1,30 @@
-import { Trash2 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { ChevronDown, ChevronRight, FileText, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
-import { CreateDocumentButton } from "@/features/create-document";
-import { cn } from "@/shared/lib/utils";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+	Sidebar,
+	SidebarContent,
+	SidebarGroup,
+	SidebarGroupAction,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarHeader,
+	SidebarMenu,
+	SidebarMenuAction,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
+	SidebarRail,
+	useSidebar,
+} from "@/components/ui/sidebar";
 import { TRANS_NS } from "..";
 
 interface DocumentSidebarProps {
@@ -24,84 +45,93 @@ export function DocumentSidebar({
 	onRename,
 }: DocumentSidebarProps) {
 	const { t } = useTranslation(TRANS_NS);
-	const [editingId, setEditingId] = useState<string | null>(null);
-	const [editName, setEditName] = useState("");
-
-	const handleStartRename = useCallback((id: string, name: string) => {
-		setEditingId(id);
-		setEditName(name);
-	}, []);
-
-	const handleCommitRename = useCallback(() => {
-		if (editingId && editName.trim()) {
-			onRename(editingId, editName.trim());
-		}
-		setEditingId(null);
-		setEditName("");
-	}, [editingId, editName, onRename]);
+	const { isMobile, setOpenMobile } = useSidebar();
 
 	const canDelete = documents.length > 1;
 
-	return (
-		<aside className="flex w-56 shrink-0 flex-col bg-sidebar/50">
-			<div className="flex flex-col gap-2 px-3 py-2">
-				<span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("documents")}</span>
-				<CreateDocumentButton onCreate={onCreate} />
-			</div>
-			<nav className="flex-1 overflow-auto px-2 py-1">
-				<ul className="space-y-1">
-					{documents.map((doc) => {
-						const isActive = doc.id === activeDocumentId;
+	const handleSelect = (id: string) => {
+		onSelect(id);
+		if (isMobile) {
+			setOpenMobile(false);
+		}
+	};
 
-						return (
-							<li key={doc.id} className="flex items-center gap-1 group">
-								{editingId === doc.id ? (
-									<input
-										type="text"
-										value={editName}
-										onChange={(e) => setEditName(e.target.value)}
-										onBlur={handleCommitRename}
-										onKeyDown={(e) => {
-											if (e.key === "Enter") handleCommitRename();
-											if (e.key === "Escape") {
-												setEditingId(null);
-												setEditName("");
-											}
-										}}
-										className="h-7 flex-1 rounded bg-background/80 px-2 text-sm outline-none ring-1 ring-transparent focus:ring-input"
-									/>
-								) : (
-									<button
-										type="button"
-										onClick={() => onSelect(doc.id)}
-										onDoubleClick={() => handleStartRename(doc.id, doc.name)}
-										className={cn(
-											"flex flex-1 items-center gap-1 truncate rounded px-2 py-1.5 text-left text-sm",
-											isActive
-												? "bg-muted/80 text-foreground"
-												: "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
-										)}
-									>
-										{doc.isDirty && <span className="text-destructive">•</span>}
-										<span className="truncate">{doc.name}</span>
-									</button>
-								)}
-								<Button
-									variant="ghost"
-									size="icon-xs"
-									className="opacity-0 group-hover:opacity-100"
-									disabled={!canDelete}
-									onClick={() => canDelete && onDelete(doc.id)}
-									title={t("delete")}
-									aria-label={t("delete")}
-								>
-									<Trash2 className="size-3.5" />
-								</Button>
-							</li>
-						);
-					})}
-				</ul>
-			</nav>
-		</aside>
+	const handleRename = (id: string, currentName: string) => {
+		const newName = window.prompt(t("renamePrompt"), currentName);
+		if (newName?.trim()) {
+			onRename(id, newName.trim());
+		}
+	};
+
+	return (
+		<Sidebar collapsible="icon">
+			<SidebarHeader className="flex flex-row items-center gap-3 border-b border-sidebar-border px-3 py-2 h-16">
+				<img src="/favicon.svg" alt="Calqnotes" className="size-10 shrink-0 rounded-md" />
+				<span className="truncate font-semibold group-data-[collapsible=icon]:hidden">Calqnotes</span>
+			</SidebarHeader>
+			<SidebarContent>
+				<SidebarGroup>
+					<SidebarMenu>
+						<Collapsible defaultOpen asChild className="group/collapsible">
+							<SidebarMenuItem>
+								<CollapsibleTrigger asChild>
+									<SidebarMenuButton tooltip={t("documents")} isActive>
+										<FileText className="size-4" />
+										{t("documents")}
+										<ChevronRight className="ml-auto group-data-[state=open]/collapsible:hidden" />
+										<ChevronDown className="ml-auto group-data-[state=closed]/collapsible:hidden" />
+									</SidebarMenuButton>
+								</CollapsibleTrigger>
+								<CollapsibleContent>
+									<SidebarMenuSub>
+										{documents.map((doc) => {
+											const isActive = doc.id === activeDocumentId;
+
+											return (
+												<DropdownMenu key={doc.id}>
+													<SidebarMenuSubItem>
+														<SidebarMenuSubButton onClick={() => handleSelect(doc.id)} isActive={isActive} asChild>
+															{/* <FileText className="size-4" /> */}
+															<SidebarMenuButton>
+																{doc.isDirty && <span className="size-1.5 shrink-0 rounded-full bg-destructive" />}
+																<span className="truncate">{doc.name}</span>
+															</SidebarMenuButton>
+														</SidebarMenuSubButton>
+														<DropdownMenuTrigger asChild className="ml-auto" aria-label={t("menu")}>
+															<SidebarMenuAction>
+																<MoreHorizontal />
+															</SidebarMenuAction>
+														</DropdownMenuTrigger>
+														<DropdownMenuContent
+															align={isMobile ? "end" : "start"}
+															side={isMobile ? "bottom" : "right"}
+															className="min-w-40"
+														>
+															<DropdownMenuItem onClick={() => handleRename(doc.id, doc.name)}>
+																<Pencil className="size-4" />
+																{t("rename")}
+															</DropdownMenuItem>
+															<DropdownMenuItem
+																variant="destructive"
+																disabled={!canDelete}
+																onClick={() => canDelete && onDelete(doc.id)}
+															>
+																<Trash2 className="size-4" />
+																{t("delete")}
+															</DropdownMenuItem>
+														</DropdownMenuContent>
+													</SidebarMenuSubItem>
+												</DropdownMenu>
+											);
+										})}
+									</SidebarMenuSub>
+								</CollapsibleContent>
+							</SidebarMenuItem>
+						</Collapsible>
+					</SidebarMenu>
+				</SidebarGroup>
+			</SidebarContent>
+			<SidebarRail />
+		</Sidebar>
 	);
 }
