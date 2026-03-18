@@ -20,7 +20,7 @@ export function ThemeToggle() {
 	return (
 		<Button
 			variant="ghost"
-			size="sm"
+			size="icon"
 			onClick={toggle}
 			title={theme === "dark" ? "Светлая тема" : "Тёмная тема"}
 			aria-label={theme === "dark" ? "Светлая тема" : "Тёмная тема"}

@@ -97,8 +97,8 @@ export function DocumentSidebar({
 																<span className="truncate">{doc.name}</span>
 															</SidebarMenuButton>
 														</SidebarMenuSubButton>
-														<DropdownMenuTrigger asChild className="ml-auto" aria-label={t("menu")}>
-															<SidebarMenuAction>
+														<DropdownMenuTrigger asChild>
+															<SidebarMenuAction aria-label={t("menu")} className="mr-0.5">
 																<MoreHorizontal />
 															</SidebarMenuAction>
 														</DropdownMenuTrigger>

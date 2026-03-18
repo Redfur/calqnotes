@@ -118,10 +118,10 @@ export function NotebookEditor({
 	const monacoTheme = theme === "dark" ? MONACO_THEME_DARK : MONACO_THEME_LIGHT;
 
 	return (
-		<div className="flex min-h-0 flex-1 flex-col">
+		<div className="flex min-h-0 flex-1 flex-col bg-sidebar">
 			<header className="flex h-16 shrink-0 items-center gap-2 border-b">
 				<div className="flex justify-between w-full items-center gap-2 px-3">
-					<SidebarTrigger />
+					<SidebarTrigger size="icon" />
 					<div className="flex items-center gap-1">
 						<ThemeToggle />
 						<SaveButton onSave={onSave} isDirty={activeDocumentDirty} />
