@@ -5,6 +5,9 @@ import { i18n } from "@/shared/lib/i18n";
 /** Кириллица + латиница для идентификаторов */
 const IDENT = "[a-zA-Z_\\u0400-\\u04FF][a-zA-Z0-9_\\u0400-\\u04FF]*";
 
+/** Встроенные переменные (результат предыдущей строки и т.д.) */
+const BUILTIN_VARIABLES = ["last"];
+
 const MATH_FUNCTIONS = [
 	"sin",
 	"cos",
@@ -315,19 +318,24 @@ export function registerCalqLanguage(monaco: Monaco): void {
 		ignoreCase: true,
 		defaultToken: "",
 		keywords: MATH_FUNCTIONS,
+		builtinVariables: BUILTIN_VARIABLES,
 		tokenizer: {
 			root: [
 				[/#.*$/, "comment"],
 				[/\d+\.?\d*(?:e[+-]?\d+)?/i, "number"],
 				[/[+\-*/^=()[\]{},!<>=]|\./, "operator"],
-				[/[a-zA-Z_\u0400-\u04FF][a-zA-Z0-9_\u0400-\u04FF]*/, { cases: { "@keywords": "function", "@default": "variable" } }],
+				[/[a-zA-Z_\u0400-\u04FF][a-zA-Z0-9_\u0400-\u04FF]*/, { cases: { "@keywords": "function", "@builtinVariables": "variable", "@default": "variable" } }],
 				[/\s+/, ""],
 			],
 		},
 	});
 
+	const BUILTIN_VAR_DEFS: { name: string; documentation: string }[] = [
+		{ name: "last", documentation: i18n.t("notebook-editor:lastVariableDoc") },
+	];
+
 	monaco.languages.registerCompletionItemProvider("calq", {
-		triggerCharacters: [],
+		triggerCharacters: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_\u0400-\u04FF".split(""),
 		provideCompletionItems(model: editor.ITextModel, position: IPosition) {
 			const word = getWordAtPosition(model, position);
 			const prefix = word.toLowerCase();
@@ -337,6 +345,15 @@ export function registerCalqLanguage(monaco: Monaco): void {
 				startColumn: position.column - word.length,
 				endColumn: position.column,
 			};
+
+			const builtinSuggestions = BUILTIN_VAR_DEFS.filter((v) => v.name.startsWith(prefix) || prefix === "").map((v) => ({
+				label: v.name,
+				kind: monaco.languages.CompletionItemKind.Variable,
+				insertText: v.name,
+				detail: v.name,
+				documentation: v.documentation,
+				range,
+			}));
 
 			const functionSuggestions = MATH_FUNCTIONS_DEF.filter((f) => f.name.startsWith(prefix) || prefix === "").map((f) => ({
 				label: f.name,
@@ -359,7 +376,7 @@ export function registerCalqLanguage(monaco: Monaco): void {
 					range,
 				}));
 
-			return { suggestions: [...variableSuggestions, ...functionSuggestions] };
+			return { suggestions: [...builtinSuggestions, ...variableSuggestions, ...functionSuggestions] };
 		},
 	});
 

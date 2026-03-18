@@ -4,5 +4,6 @@ export const notebookEditorTranslations = {
 		selectOrCreate: "Выберите или создайте документ",
 		yourVariable: "Ваша переменная",
 		yourVariableValue: "= {{value}}",
+		lastVariableDoc: "Результат предыдущей строки",
 	},
 } as const;
