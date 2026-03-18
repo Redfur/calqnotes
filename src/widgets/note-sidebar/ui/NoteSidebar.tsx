@@ -57,7 +57,7 @@ export function NoteSidebar({ notes, activeNoteId, onSelect, onCreate, onDelete,
 	return (
 		<Sidebar collapsible="icon">
 			<SidebarHeader className="flex flex-row items-center gap-3 border-b border-sidebar-border px-3 py-2 h-16">
-				<img src="/favicon.svg" alt="Calqnotes" className="size-10 shrink-0 rounded-md" />
+				<img src="/favicon.svg" alt="Calqnotes" className="size-10 shrink-0" />
 				<span className="truncate font-semibold group-data-[collapsible=icon]:hidden">Calqnotes</span>
 			</SidebarHeader>
 			<SidebarContent>
