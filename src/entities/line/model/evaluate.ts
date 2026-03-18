@@ -1,6 +1,12 @@
 import { type EvalFunction, type MathNode, parse } from "mathjs";
 import type { EvaluatedLine, Line } from "./types";
 
+// Поддержка кириллицы в идентификаторах (math.js по умолчанию только латиница/греческий)
+// Патчим isValidLatinOrGreek — parse.isAlpha вызывает её для проверки символов
+const originalValid = parse.isValidLatinOrGreek;
+parse.isValidLatinOrGreek = (c: string) =>
+	originalValid(c) || /^[\u0400-\u04FF]$/.test(c);
+
 const parseCache = new Map<string, { parsed: MathNode; compiled: EvalFunction }>();
 
 export function evaluateNotebook(lines: Line[]): EvaluatedLine[] {
