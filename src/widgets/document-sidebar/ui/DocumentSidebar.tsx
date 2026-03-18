@@ -11,9 +11,6 @@ import {
 	Sidebar,
 	SidebarContent,
 	SidebarGroup,
-	SidebarGroupAction,
-	SidebarGroupContent,
-	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuAction,
@@ -23,6 +20,7 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 	SidebarRail,
+	SidebarSeparator,
 	useSidebar,
 } from "@/components/ui/sidebar";
 import { TRANS_NS } from "..";
@@ -91,7 +89,6 @@ export function DocumentSidebar({
 												<DropdownMenu key={doc.id}>
 													<SidebarMenuSubItem>
 														<SidebarMenuSubButton onClick={() => handleSelect(doc.id)} isActive={isActive} asChild>
-															{/* <FileText className="size-4" /> */}
 															<SidebarMenuButton>
 																{doc.isDirty && <span className="size-1.5 shrink-0 rounded-full bg-destructive" />}
 																<span className="truncate">{doc.name}</span>
@@ -124,6 +121,17 @@ export function DocumentSidebar({
 												</DropdownMenu>
 											);
 										})}
+										<SidebarSeparator />
+										<DropdownMenu>
+											<SidebarMenuSubItem>
+												<SidebarMenuSubButton onClick={onCreate} asChild>
+													<SidebarMenuButton>
+														<Plus className="size-4" />
+														<span className="truncate">{t("newDocument")}</span>
+													</SidebarMenuButton>
+												</SidebarMenuSubButton>
+											</SidebarMenuSubItem>
+										</DropdownMenu>
 									</SidebarMenuSub>
 								</CollapsibleContent>
 							</SidebarMenuItem>
