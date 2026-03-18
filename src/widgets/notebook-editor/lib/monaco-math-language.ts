@@ -334,7 +334,7 @@ export function registerCalqLanguage(monaco: Monaco): void {
 	});
 
 	const BUILTIN_VAR_DEFS: { name: string; documentation: string }[] = [
-		{ name: "last", documentation: i18n.t("notebook-editor:lastVariableDoc") },
+		{ name: "last", documentation: i18n.t("notebook-editor:lastVariableNote") },
 	];
 
 	monaco.languages.registerCompletionItemProvider("calq", {

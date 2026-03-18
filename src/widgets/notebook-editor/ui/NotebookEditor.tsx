@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import type { EvaluatedLine } from "@/entities/line";
-import { SaveButton } from "@/features/save-document";
+import { SaveButton } from "@/features/save-note";
 import { ThemeToggle } from "@/features/theme-toggle";
 import { getTheme, THEME_CHANGE_EVENT, type Theme } from "@/shared/lib/theme";
 import { cn } from "@/shared/lib/utils";
@@ -19,8 +19,8 @@ interface NotebookEditorProps {
 	value: string;
 	onChange: (value: string) => void;
 	evaluatedLines: EvaluatedLine[];
-	activeDocumentId: string | null;
-	activeDocumentDirty: boolean;
+	activeNoteId: string | null;
+	activeNoteDirty: boolean;
 	onSave: () => void;
 }
 
@@ -61,8 +61,8 @@ export function NotebookEditor({
 	value,
 	onChange,
 	evaluatedLines,
-	activeDocumentId,
-	activeDocumentDirty,
+	activeNoteId,
+	activeNoteDirty,
 	onSave,
 }: NotebookEditorProps) {
 	const { t } = useTranslation(TRANS_NS);
@@ -124,11 +124,11 @@ export function NotebookEditor({
 					<SidebarTrigger size="icon" />
 					<div className="flex items-center gap-1">
 						<ThemeToggle />
-						<SaveButton onSave={onSave} isDirty={activeDocumentDirty} />
+						<SaveButton onSave={onSave} isDirty={activeNoteDirty} />
 					</div>
 				</div>
 			</header>
-			{!activeDocumentId ? (
+			{!activeNoteId ? (
 				<div className="flex flex-1 items-center justify-center text-muted-foreground">{t("selectOrCreate")}</div>
 			) : (
 				<div className="flex min-h-0 flex-1 min-w-0">

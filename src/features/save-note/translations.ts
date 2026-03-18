@@ -1,4 +1,4 @@
-export const saveDocumentTranslations = {
+export const saveNoteTranslations = {
 	ru: {
 		save: "Сохранить",
 	},

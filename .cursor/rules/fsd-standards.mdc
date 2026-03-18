@@ -20,8 +20,8 @@ app/ → pages/ → widgets/ → features/ → entities/ → shared
 ## Где размещать код
 
 - **entities/** — document, line (типы, модель, базовые UI)
-- **features/** — save-document, create-document, edit-line (действия)
-- **widgets/** — document-sidebar, notebook-editor (крупные блоки)
+- **features/** — save-note, create-note, edit-line (действия)
+- **widgets/** — note-sidebar, notebook-editor (крупные блоки)
 - **pages/** — notebook (страница блокнота)
 - **shared/** — lib, config, i18n
 

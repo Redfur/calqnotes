@@ -25,27 +25,20 @@ import {
 } from "@/components/ui/sidebar";
 import { TRANS_NS } from "..";
 
-interface DocumentSidebarProps {
-	documents: { id: string; name: string; isDirty: boolean }[];
-	activeDocumentId: string | null;
+interface NoteSidebarProps {
+	notes: { id: string; name: string; isDirty: boolean }[];
+	activeNoteId: string | null;
 	onSelect: (id: string) => void;
 	onCreate: () => void;
 	onDelete: (id: string) => void;
 	onRename: (id: string, name: string) => void;
 }
 
-export function DocumentSidebar({
-	documents,
-	activeDocumentId,
-	onSelect,
-	onCreate,
-	onDelete,
-	onRename,
-}: DocumentSidebarProps) {
+export function NoteSidebar({ notes, activeNoteId, onSelect, onCreate, onDelete, onRename }: NoteSidebarProps) {
 	const { t } = useTranslation(TRANS_NS);
 	const { isMobile, setOpenMobile } = useSidebar();
 
-	const canDelete = documents.length > 1;
+	const canDelete = notes.length > 1;
 
 	const handleSelect = (id: string) => {
 		onSelect(id);
@@ -73,25 +66,25 @@ export function DocumentSidebar({
 						<Collapsible defaultOpen asChild className="group/collapsible">
 							<SidebarMenuItem>
 								<CollapsibleTrigger asChild>
-									<SidebarMenuButton tooltip={t("documents")} isActive>
+									<SidebarMenuButton tooltip={t("notes")} isActive>
 										<FileText className="size-4" />
-										{t("documents")}
+										{t("notes")}
 										<ChevronRight className="ml-auto group-data-[state=open]/collapsible:hidden" />
 										<ChevronDown className="ml-auto group-data-[state=closed]/collapsible:hidden" />
 									</SidebarMenuButton>
 								</CollapsibleTrigger>
 								<CollapsibleContent>
 									<SidebarMenuSub>
-										{documents.map((doc) => {
-											const isActive = doc.id === activeDocumentId;
+										{notes.map((note) => {
+											const isActive = note.id === activeNoteId;
 
 											return (
-												<DropdownMenu key={doc.id}>
+												<DropdownMenu key={note.id}>
 													<SidebarMenuSubItem>
-														<SidebarMenuSubButton onClick={() => handleSelect(doc.id)} isActive={isActive} asChild>
+														<SidebarMenuSubButton onClick={() => handleSelect(note.id)} isActive={isActive} asChild>
 															<SidebarMenuButton>
-																{doc.isDirty && <span className="size-1.5 shrink-0 rounded-full bg-destructive" />}
-																<span className="truncate">{doc.name}</span>
+																{note.isDirty && <span className="size-1.5 shrink-0 rounded-full bg-destructive" />}
+																<span className="truncate">{note.name}</span>
 															</SidebarMenuButton>
 														</SidebarMenuSubButton>
 														<DropdownMenuTrigger asChild>
@@ -104,14 +97,14 @@ export function DocumentSidebar({
 															side={isMobile ? "bottom" : "right"}
 															className="min-w-40"
 														>
-															<DropdownMenuItem onClick={() => handleRename(doc.id, doc.name)}>
+															<DropdownMenuItem onClick={() => handleRename(note.id, note.name)}>
 																<Pencil className="size-4" />
 																{t("rename")}
 															</DropdownMenuItem>
 															<DropdownMenuItem
 																variant="destructive"
 																disabled={!canDelete}
-																onClick={() => canDelete && onDelete(doc.id)}
+																onClick={() => canDelete && onDelete(note.id)}
 															>
 																<Trash2 className="size-4" />
 																{t("delete")}
@@ -127,7 +120,7 @@ export function DocumentSidebar({
 												<SidebarMenuSubButton onClick={onCreate} asChild>
 													<SidebarMenuButton>
 														<Plus className="size-4" />
-														<span className="truncate">{t("newDocument")}</span>
+														<span className="truncate">{t("newNote")}</span>
 													</SidebarMenuButton>
 												</SidebarMenuSubButton>
 											</SidebarMenuSubItem>

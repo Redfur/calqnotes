@@ -4,7 +4,7 @@ import type { Line } from "@/entities/line";
 const DB_NAME = "calqnotes";
 const DB_VERSION = 2;
 
-export interface DocumentRecord {
+export interface NoteRecord {
 	id: string;
 	name: string;
 	lines: Line[];
@@ -14,7 +14,7 @@ export interface DocumentRecord {
 interface CalqnotesDB extends DBSchema {
 	documents: {
 		key: string;
-		value: DocumentRecord;
+		value: NoteRecord;
 	};
 }
 
@@ -29,7 +29,7 @@ async function getDB() {
 	});
 }
 
-export async function loadDocuments(): Promise<DocumentRecord[]> {
+export async function loadNotes(): Promise<NoteRecord[]> {
 	const db = await getDB();
 	const docs = await db.getAll("documents");
 	db.close();
@@ -42,26 +42,26 @@ export async function loadDocuments(): Promise<DocumentRecord[]> {
 	});
 }
 
-export async function loadDocument(id: string): Promise<DocumentRecord | undefined> {
+export async function loadNote(id: string): Promise<NoteRecord | undefined> {
 	const db = await getDB();
 	const doc = await db.get("documents", id);
 	db.close();
 	return doc;
 }
 
-export async function saveDocument(id: string, name: string, lines: Line[], sortOrder: number): Promise<void> {
+export async function saveNote(id: string, name: string, lines: Line[], sortOrder: number): Promise<void> {
 	const db = await getDB();
 	await db.put("documents", { id, name, lines, sortOrder });
 	db.close();
 }
 
-export async function createDocument(id: string, name: string, lines: Line[], sortOrder: number): Promise<void> {
+export async function createNote(id: string, name: string, lines: Line[], sortOrder: number): Promise<void> {
 	const db = await getDB();
 	await db.add("documents", { id, name, lines, sortOrder });
 	db.close();
 }
 
-export async function deleteDocument(id: string): Promise<void> {
+export async function deleteNote(id: string): Promise<void> {
 	const db = await getDB();
 	await db.delete("documents", id);
 	db.close();

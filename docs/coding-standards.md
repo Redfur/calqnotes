@@ -34,13 +34,13 @@ src/
 │   └── notebook/
 │       └── ui/
 ├── widgets/             # Крупные самодостаточные блоки UI
-│   ├── document-sidebar/
+│   ├── note-sidebar/
 │   └── notebook-editor/
 ├── features/           # Действия пользователя (переиспользуемые)
-│   ├── save-document/
-│   └── create-document/
+│   ├── save-note/
+│   └── create-note/
 ├── entities/           # Бизнес-сущности
-│   ├── document/
+│   ├── note/
 │   └── line/
 └── shared/             # Переиспользуемый код без бизнес-логики
     ├── lib/             # Утилиты, хелперы, injectTranslation
@@ -107,7 +107,7 @@ entities/line/
 - Файлы компонентов: PascalCase (LineRow.tsx)
 - Хуки: camelCase с префиксом `use`
 - Утилиты, типы: camelCase / PascalCase по контексту
-- Папки: kebab-case (document-sidebar, notebook-editor)
+- Папки: kebab-case (note-sidebar, notebook-editor)
 
 ### Biome
 
@@ -122,7 +122,7 @@ entities/line/
 **Структура слайса:**
 
 ```
-features/save-document/
+features/save-note/
 ├── ui/
 │   └── SaveButton.tsx
 ├── translations.ts      # { ru: { save: 'Сохранить' }, ... }
@@ -136,7 +136,7 @@ features/save-document/
 import { injectTranslation } from "@/shared/lib/i18n";
 import { translations } from "./translations";
 
-export const TRANS_NS = "save-document";
+export const TRANS_NS = "save-note";
 
 injectTranslation(TRANS_NS, translations);
 

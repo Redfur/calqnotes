@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 import { useEvaluatedLines, useNotebookStore } from "@/app/store/notebook-store";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { DocumentSidebar } from "@/widgets/document-sidebar";
+import { NoteSidebar } from "@/widgets/note-sidebar";
 import { NotebookEditor } from "@/widgets/notebook-editor";
 
 export function NotebookPage() {
 	const initialize = useNotebookStore((s) => s.initialize);
-	const documents = useNotebookStore((s) => s.documents);
-	const activeDocumentId = useNotebookStore((s) => s.activeDocumentId);
+	const notes = useNotebookStore((s) => s.notes);
+	const activeNoteId = useNotebookStore((s) => s.activeNoteId);
 	const content = useNotebookStore((s) => s.content);
-	const setActiveDocument = useNotebookStore((s) => s.setActiveDocument);
+	const setActiveNote = useNotebookStore((s) => s.setActiveNote);
 	const setContent = useNotebookStore((s) => s.setContent);
-	const createDocument = useNotebookStore((s) => s.createDocument);
-	const deleteDocument = useNotebookStore((s) => s.deleteDocument);
-	const renameDocument = useNotebookStore((s) => s.renameDocument);
-	const saveDocument = useNotebookStore((s) => s.saveDocument);
+	const createNote = useNotebookStore((s) => s.createNote);
+	const deleteNote = useNotebookStore((s) => s.deleteNote);
+	const renameNote = useNotebookStore((s) => s.renameNote);
+	const saveNote = useNotebookStore((s) => s.saveNote);
 
 	const evaluatedLines = useEvaluatedLines();
-	const activeDoc = documents.find((d) => d.id === activeDocumentId);
-	const currentContent = activeDocumentId ? (content[activeDocumentId] ?? "") : "";
+	const activeNote = notes.find((d) => d.id === activeNoteId);
+	const currentContent = activeNoteId ? (content[activeNoteId] ?? "") : "";
 
 	useEffect(() => {
 		initialize();
@@ -26,7 +26,7 @@ export function NotebookPage() {
 
 	// Предупреждение при закрытии с несохранёнными изменениями
 	useEffect(() => {
-		const hasDirty = documents.some((d) => d.isDirty);
+		const hasDirty = notes.some((d) => d.isDirty);
 		const handler = (e: BeforeUnloadEvent) => {
 			if (hasDirty) {
 				e.preventDefault();
@@ -34,31 +34,31 @@ export function NotebookPage() {
 		};
 		window.addEventListener("beforeunload", handler);
 		return () => window.removeEventListener("beforeunload", handler);
-	}, [documents]);
+	}, [notes]);
 
 	const handleSave = async () => {
-		if (activeDocumentId) {
-			await saveDocument(activeDocumentId);
+		if (activeNoteId) {
+			await saveNote(activeNoteId);
 		}
 	};
 
 	return (
 		<SidebarProvider>
-			<DocumentSidebar
-				documents={documents}
-				activeDocumentId={activeDocumentId}
-				onSelect={(id) => setActiveDocument(id)}
-				onCreate={createDocument}
-				onDelete={deleteDocument}
-				onRename={renameDocument}
+			<NoteSidebar
+				notes={notes}
+				activeNoteId={activeNoteId}
+				onSelect={(id) => setActiveNote(id)}
+				onCreate={createNote}
+				onDelete={deleteNote}
+				onRename={renameNote}
 			/>
 			<SidebarInset>
 				<NotebookEditor
 					value={currentContent}
-					onChange={(text) => activeDocumentId && setContent(activeDocumentId, text)}
+					onChange={(text) => activeNoteId && setContent(activeNoteId, text)}
 					evaluatedLines={evaluatedLines}
-					activeDocumentId={activeDocumentId}
-					activeDocumentDirty={activeDoc?.isDirty ?? false}
+					activeNoteId={activeNoteId}
+					activeNoteDirty={activeNote?.isDirty ?? false}
 					onSave={handleSave}
 				/>
 			</SidebarInset>
