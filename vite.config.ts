@@ -6,7 +6,11 @@ import biomePlugin from "vite-plugin-biome";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
+// GitHub Pages (project site): задать VITE_BASE_PATH=/repo-name/ в CI; локально — '/'.
+const base = process.env.VITE_BASE_PATH?.replace(/\/?$/, "/") ?? "/";
+
 export default defineConfig({
+	base,
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "src"),
