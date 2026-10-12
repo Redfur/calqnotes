@@ -1,0 +1,23 @@
+export const precisionPickerTranslations = {
+	ru: {
+		precision: "Точность",
+		ariaLabel: "Точность отображения: {{value}}",
+		title: "Знаков после запятой",
+		"option.auto": "Авто",
+		"option.0": "Целые",
+		"option.1": "1 знак",
+		"option.2": "2 знака",
+		"option.4": "4 знака",
+		significant: "Значащие",
+		"short.auto": "Авто",
+		"short.0": "0",
+		"short.1": "0,0",
+		"short.2": "0,00",
+		"short.4": "0,0000",
+		sample: "2500 / 3 → {{value}}",
+		thisNote: "Эта заметка",
+		allNotes: "Все заметки",
+		moreSettings: "Разделители и другие параметры…",
+		noteOwn: "У этой заметки своя точность",
+	},
+} as const;

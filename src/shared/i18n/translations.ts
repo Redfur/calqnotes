@@ -11,5 +11,6 @@ export const commonTranslations = {
 		undo: "Отменить",
 		close: "Закрыть",
 		soon: "Скоро",
+		menu: "Меню заметки",
 	},
 } as const;

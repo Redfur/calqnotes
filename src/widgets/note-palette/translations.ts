@@ -1,0 +1,23 @@
+export const notePaletteTranslations = {
+	ru: {
+		title: "Заметки",
+		search: "Найти заметку по названию или тексту",
+		searchShort: "Поиск по заметкам",
+		count_one: "{{count}} заметка",
+		count_few: "{{count}} заметки",
+		count_many: "{{count}} заметок",
+		count_other: "{{count}} заметки",
+		inText: "в тексте",
+		nothingFound: "Заметок со словом «{{q}}» нет.",
+		createNamed: "Создать заметку «{{q}}»",
+		newNote: "Новая заметка",
+		renameLabel: "Новое название",
+		rename: "Переименовать «{{name}}»",
+		duplicate: "Дублировать «{{name}}»",
+		delete: "Удалить «{{name}}»",
+		hintSelect: "↑↓ выбрать",
+		hintOpen: "Enter открыть",
+		hintRename: "F2 переименовать",
+		hintDelete: "Del удалить",
+	},
+} as const;

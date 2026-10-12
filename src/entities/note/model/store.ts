@@ -157,7 +157,7 @@ export const useNotesStore = create<NotesState & NotesActions>((set, get) => {
 		},
 
 		renameNote: (id, name) => {
-			markDirty(id, { name: name.trim() });
+			markDirty(id, { name });
 		},
 
 		setPrecision: (id, precision) => {

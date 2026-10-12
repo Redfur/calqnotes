@@ -26,25 +26,28 @@ app → pages → widgets → features → entities → shared
 src/
 ├── components/          # shadcn UI-компоненты (Button, Input и т.д.)
 │   └── ui/              # импорт: @/components/ui/...
-├── app/                 # Точка входа, провайдеры, стор
-│   ├── providers/
-│   ├── store/           # Zustand store
-│   └── styles/
+├── app/                 # Точка входа, провайдеры
+│   └── providers/       # Провайдеры и эффекты настроек
 ├── pages/               # Страницы приложения
 │   └── notebook/
 │       └── ui/
 ├── widgets/             # Крупные самодостаточные блоки UI
-│   ├── note-sidebar/
-│   └── notebook-editor/
+│   ├── app-header/
+│   ├── help-panel/
+│   ├── note-editor/
+│   ├── note-palette/
+│   └── settings-dialog/
 ├── features/           # Действия пользователя (переиспользуемые)
-│   ├── save-note/
-│   └── create-note/
+│   ├── note-actions/
+│   └── precision-picker/
 ├── entities/           # Бизнес-сущности
+│   ├── line/
 │   ├── note/
-│   └── line/
+│   └── settings/
 └── shared/             # Переиспользуемый код без бизнес-логики
     ├── lib/             # Утилиты, хелперы, injectTranslation
-    ├── api/             # API-клиент (если есть бэкенд)
+    ├── ui/              # Общие компоненты поверх shadcn
+    ├── api/             # IndexedDB
     ├── config/          # Конфигурация
     └── i18n/            # Глобальные переводы (cancel, save и т.д.)
 ```
@@ -99,7 +102,7 @@ entities/line/
 - Компоненты в `src/components/ui/` (настроено в `components.json`)
 - Импорт: `@/components/ui/button`, `@/components/ui/input` и т.д.
 - Без inline-стилей, кроме динамических значений
-- Глобальные стили в `app/styles/`
+- Глобальные стили и токены темы в `src/index.css`
 
 ### Именование
 
@@ -107,12 +110,13 @@ entities/line/
 - Файлы компонентов: PascalCase (LineRow.tsx)
 - Хуки: camelCase с префиксом `use`
 - Утилиты, типы: camelCase / PascalCase по контексту
-- Папки: kebab-case (note-sidebar, notebook-editor)
+- Папки: kebab-case (note-editor, precision-picker)
 
-### Biome
+### Biome и тесты
 
 - Линтинг и форматирование через Biome
-- `npm run check` перед коммитом
+- `npm run check` и `npm test` перед коммитом
+- Тесты (Vitest) — рядом с кодом: `*.test.ts`
 - Не отключать правила без явной причины (с комментарием)
 
 ### Локализация (react-i18next)

@@ -34,6 +34,11 @@ let dbPromise: Promise<IDBPDatabase<CalqnotesDB>> | null = null;
 function getDB() {
 	if (!dbPromise) {
 		dbPromise = openDB<CalqnotesDB>(DB_NAME, DB_VERSION, {
+			// Другая вкладка с новой версией приложения хочет обновить схему — отпускаем базу
+			blocking(_current, _blocked, event) {
+				(event.target as IDBDatabase).close();
+				dbPromise = null;
+			},
 			async upgrade(db, oldVersion, _newVersion, tx) {
 				if (oldVersion < 1) {
 					db.createObjectStore("documents", { keyPath: "id" });
