@@ -24,6 +24,7 @@
 | [ui.md](./ui.md) | UI, редактирование, клавиатура |
 | [non-functional.md](./non-functional.md) | Нефункциональные требования |
 | [roadmap.md](./roadmap.md) | Расширяемость и будущие возможности |
+| [redesign.md](./redesign.md) | План переезда на новый дизайн |
 
 ## Референс
 
