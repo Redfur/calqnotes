@@ -1,11 +1,7 @@
 import { NotebookPage } from "@/pages/notebook";
 
 function App() {
-	return (
-		<main className="min-h-svh">
-			<NotebookPage />
-		</main>
-	);
+	return <NotebookPage />;
 }
 
 export default App;

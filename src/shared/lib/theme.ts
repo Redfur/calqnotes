@@ -1,37 +1,32 @@
-const THEME_KEY = "calqnotes-theme";
-
+export type ThemePreference = "system" | "light" | "dark";
 export type Theme = "light" | "dark";
 
-function getSystemTheme(): Theme {
-	if (typeof window === "undefined") return "light";
-	return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
+/** Ключ старой версии: переносим выбор темы в настройки */
+const LEGACY_THEME_KEY = "calqnotes-theme";
 
-export function getTheme(): Theme {
-	if (typeof document === "undefined") return "light";
+const media = () => window.matchMedia("(prefers-color-scheme: dark)");
+
+export function readLegacyTheme(): ThemePreference | null {
 	try {
-		const stored = localStorage.getItem(THEME_KEY);
+		const stored = localStorage.getItem(LEGACY_THEME_KEY);
 		if (stored === "dark" || stored === "light") return stored;
 	} catch {
 		/* ignore */
 	}
-	return getSystemTheme();
+	return null;
 }
 
-export const THEME_CHANGE_EVENT = "calqnotes-theme-change";
-
-export function setTheme(theme: Theme): void {
-	try {
-		localStorage.setItem(THEME_KEY, theme);
-	} catch {
-		/* ignore */
-	}
-	document.documentElement.classList.toggle("dark", theme === "dark");
-	if (typeof window !== "undefined") {
-		window.dispatchEvent(new CustomEvent(THEME_CHANGE_EVENT, { detail: theme }));
-	}
+export function resolveTheme(preference: ThemePreference): Theme {
+	if (preference !== "system") return preference;
+	return media().matches ? "dark" : "light";
 }
 
-export function initTheme(): void {
-	setTheme(getTheme());
+/** Ставит класс `dark` на <html> и следит за системной темой, пока выбрано «Как в системе» */
+export function applyTheme(preference: ThemePreference): () => void {
+	const apply = () => document.documentElement.classList.toggle("dark", resolveTheme(preference) === "dark");
+	apply();
+	if (preference !== "system") return () => {};
+	const mq = media();
+	mq.addEventListener("change", apply);
+	return () => mq.removeEventListener("change", apply);
 }

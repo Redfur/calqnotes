@@ -7,6 +7,8 @@ i18n.use(initReactI18next).init({
 	lng: "ru",
 	fallbackLng: "ru",
 	defaultNS: defaultNs,
+	// Ключи плоские, точка — часть имени ключа (`error.incomplete`)
+	keySeparator: false,
 	interpolation: {
 		escapeValue: false,
 	},
