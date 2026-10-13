@@ -9,4 +9,14 @@ export const appHeaderTranslations = {
 		settings: "Настройки",
 		precisionAria: "Точность: {{value}}",
 	},
+	en: {
+		notes: "Notes",
+		allNotes: "All notes",
+		noteTitle: "Note name",
+		titleHint: "the name will come from the first line",
+		newNote: "New note",
+		help: "Cheat sheet",
+		settings: "Settings",
+		precisionAria: "Precision: {{value}}",
+	},
 } as const;

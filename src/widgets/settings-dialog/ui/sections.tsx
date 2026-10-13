@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/ui/switch";
 import { type EditorSettings, useSettingsStore } from "@/entities/settings";
 import { formatNumber, MAX_DIGITS } from "@/shared/lib/format-number";
+import { LANGUAGES } from "@/shared/lib/i18n";
 import { cn } from "@/shared/lib/utils";
 import { Segmented } from "@/shared/ui/Segmented";
 import { TRANS_NS } from "..";
@@ -179,7 +180,9 @@ export function LookSection({ touch }: { touch?: boolean }) {
 	const theme = useSettingsStore((s) => s.theme);
 	const font = useSettingsStore((s) => s.font);
 	const fontSize = useSettingsStore((s) => s.fontSize);
+	const language = useSettingsStore((s) => s.language);
 	const update = useSettingsStore((s) => s.update);
+	const setLanguage = useSettingsStore((s) => s.setLanguage);
 
 	return (
 		<div className="flex flex-col gap-5">
@@ -213,6 +216,15 @@ export function LookSection({ touch }: { touch?: boolean }) {
 						);
 					})}
 				</fieldset>
+			</Field>
+			<Field label={t("language")}>
+				<Segmented
+					touch={touch}
+					label={t("language")}
+					value={language}
+					onChange={setLanguage}
+					options={LANGUAGES.map((l) => ({ value: l, label: t(`language.${l}`) }))}
+				/>
 			</Field>
 			<Field label={t("font")}>
 				<Segmented

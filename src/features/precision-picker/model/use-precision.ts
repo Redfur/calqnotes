@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useActiveNote, useNotesStore } from "@/entities/note";
 import { effectiveFormat, type Precision, precisionOf, useSettingsStore } from "@/entities/settings";
+import { formatNumber } from "@/shared/lib/format-number";
 import { TRANS_NS } from "..";
 
 export type PrecisionScope = "note" | "all";
@@ -37,7 +38,13 @@ export function usePrecision() {
 	};
 
 	const label = current === null ? t("significant") : t(`option.${current}`);
-	const shortLabel = current === null ? t("significant") : t(`short.${current}`);
+	// «0,00» или «0.00» — по разделителю из настроек
+	const shortLabel =
+		current === null
+			? t("significant")
+			: current === "auto"
+				? t("short.auto")
+				: formatNumber(0, { ...globalFormat, mode: "fixed", digits: current, trailingZeros: true }).text;
 
 	return { current, scope, format, globalFormat, label, shortLabel, pick, setScope, isCustom: scope === "note" };
 }

@@ -1,12 +1,29 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-const defaultNs = "common";
+export type Language = "ru" | "en";
+
+export const LANGUAGES: Language[] = ["ru", "en"];
+
+const LOCALES: Record<Language, string> = { ru: "ru-RU", en: "en-US" };
+
+/** Язык браузера: русский для ru-*, иначе английский */
+export function detectLanguage(): Language {
+	if (typeof navigator === "undefined") return "ru";
+	const langs = navigator.languages?.length ? navigator.languages : [navigator.language];
+	return langs.some((l) => l?.toLowerCase().startsWith("ru")) ? "ru" : "en";
+}
+
+/** Локаль для Intl: даты, время */
+export function localeOf(language: string): string {
+	return LOCALES[language as Language] ?? LOCALES.en;
+}
 
 i18n.use(initReactI18next).init({
-	lng: "ru",
-	fallbackLng: "ru",
-	defaultNS: defaultNs,
+	lng: detectLanguage(),
+	fallbackLng: "en",
+	supportedLngs: LANGUAGES,
+	defaultNS: "common",
 	// Ключи плоские, точка — часть имени ключа (`error.incomplete`)
 	keySeparator: false,
 	interpolation: {
