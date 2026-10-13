@@ -23,6 +23,11 @@ export const DEFAULT_NUMBER_FORMAT: NumberFormat = {
 	expThreshold: 1e15,
 };
 
+/** Разделители, привычные для языка: 1 234,5 по-русски и 1,234.5 по-английски */
+export function numberFormatForLanguage(language: string): NumberFormat {
+	return language === "ru" ? DEFAULT_NUMBER_FORMAT : { ...DEFAULT_NUMBER_FORMAT, group: "comma", decimal: "dot" };
+}
+
 export const MAX_DIGITS = 10;
 
 export interface FormattedNumber {

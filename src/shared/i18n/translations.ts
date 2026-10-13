@@ -13,4 +13,18 @@ export const commonTranslations = {
 		soon: "Скоро",
 		menu: "Меню заметки",
 	},
+	en: {
+		save: "Save",
+		cancel: "Cancel",
+		delete: "Delete",
+		create: "Create",
+		rename: "Rename",
+		untitled: "Untitled",
+		untitledN: "Untitled {{n}}",
+		copyOf: "{{name}} (copy)",
+		undo: "Undo",
+		close: "Close",
+		soon: "Soon",
+		menu: "Note menu",
+	},
 } as const;

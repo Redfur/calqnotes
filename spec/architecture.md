@@ -41,6 +41,7 @@ Note
 
 ```
 useSettingsStore (persist → localStorage "calqnotes-settings")
+  language: "ru" | "en"         // по умолчанию — язык браузера
   numberFormat: NumberFormat
   theme: "system" | "light" | "dark"
   font: "geist" | "system" | "mono"
@@ -49,7 +50,7 @@ useSettingsStore (persist → localStorage "calqnotes-settings")
   welcomeDismissed: boolean
 ```
 
-Эффекты настроек (тема, шрифт редактора в CSS-переменных, автосохранение) применяются в `app/providers`.
+Эффекты настроек (язык i18n и `<html lang>`, тема, шрифт редактора в CSS-переменных, автосохранение) применяются в `app/providers`.
 
 ## Поток данных
 

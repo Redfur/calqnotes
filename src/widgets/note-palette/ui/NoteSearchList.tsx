@@ -4,6 +4,7 @@ import { type KeyboardEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NOTE_NS, type Note, noteTitle, useNotesStore } from "@/entities/note";
 import { formatRelativeDate } from "@/shared/lib/format-date";
+import { localeOf } from "@/shared/lib/i18n";
 import { cn } from "@/shared/lib/utils";
 import { TRANS_NS } from "..";
 import { type Highlighted, searchNotes } from "../lib/search";
@@ -39,7 +40,7 @@ export function NoteSearchList({
 	autoFocus,
 	className,
 }: NoteSearchListProps) {
-	const { t } = useTranslation([TRANS_NS, NOTE_NS, "common"]);
+	const { t, i18n } = useTranslation([TRANS_NS, NOTE_NS, "common"]);
 	const notes = useNotesStore((s) => s.notes);
 	const activeId = useNotesStore((s) => s.activeNoteId);
 	const duplicateNote = useNotesStore((s) => s.duplicateNote);
@@ -166,7 +167,9 @@ export function NoteSearchList({
 								<span className="truncate text-sm font-medium">
 									<Mark text={title} />
 								</span>
-								<span className="text-xs text-muted-foreground">{formatRelativeDate(note.updatedAt, dateLabels)}</span>
+								<span className="text-xs text-muted-foreground">
+									{formatRelativeDate(note.updatedAt, dateLabels, localeOf(i18n.language))}
+								</span>
 								<span className="col-span-2 truncate text-[13px] text-muted-foreground">
 									<Mark text={preview} />
 									{inText && ` — ${t("inText")}`}

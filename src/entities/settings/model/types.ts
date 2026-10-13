@@ -1,4 +1,5 @@
 import type { NumberFormat } from "@/shared/lib/format-number";
+import type { Language } from "@/shared/lib/i18n";
 import type { ThemePreference } from "@/shared/lib/theme";
 
 export type EditorFont = "geist" | "system" | "mono";
@@ -13,6 +14,7 @@ export interface EditorSettings {
 }
 
 export interface AppSettings {
+	language: Language;
 	numberFormat: NumberFormat;
 	theme: ThemePreference;
 	font: EditorFont;
