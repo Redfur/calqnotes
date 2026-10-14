@@ -7,6 +7,10 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "src"),
 		},
 	},
+	define: {
+		__BUILD_COMMIT__: JSON.stringify("test"),
+		__BUILD_TIME__: JSON.stringify("2026-01-01T00:00:00.000Z"),
+	},
 	test: {
 		include: ["src/**/*.test.ts"],
 	},

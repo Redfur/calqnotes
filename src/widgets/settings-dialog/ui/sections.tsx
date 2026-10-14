@@ -1,11 +1,13 @@
-import { Minus, Plus } from "lucide-react";
+import { ExternalLink, Github, Lightbulb, MessageCircle, Minus, Plus, Scale } from "lucide-react";
 import { type ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/ui/switch";
 import { type EditorSettings, useSettingsStore } from "@/entities/settings";
+import { BUILD, CALQUE_URL, ISSUES_URL, LICENSE_URL, REPO_URL } from "@/shared/config/app";
 import { formatNumber, MAX_DIGITS } from "@/shared/lib/format-number";
-import { LANGUAGES } from "@/shared/lib/i18n";
+import { LANGUAGES, localeOf } from "@/shared/lib/i18n";
 import { cn } from "@/shared/lib/utils";
+import { Logo } from "@/shared/ui/Logo";
 import { Segmented } from "@/shared/ui/Segmented";
 import { TRANS_NS } from "..";
 
@@ -282,6 +284,60 @@ export function DataSection() {
 				{t("exportAll")}
 				<span className="rounded-sm bg-muted px-1.5 text-[11px] text-muted-foreground">{t("common:soon")}</span>
 			</button>
+		</div>
+	);
+}
+
+export function AboutSection({ touch }: { touch?: boolean }) {
+	const { t, i18n } = useTranslation(TRANS_NS);
+	const date = new Date(BUILD.time).toLocaleDateString(localeOf(i18n.language), {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	});
+	const links = [
+		{ href: REPO_URL, label: t("sourceCode"), icon: Github },
+		{ href: ISSUES_URL, label: t("reportIssue"), icon: MessageCircle },
+		{ href: LICENSE_URL, label: t("license"), icon: Scale },
+		{ href: CALQUE_URL, label: t("basedOn"), icon: Lightbulb },
+	];
+	return (
+		<div className="flex flex-col gap-4">
+			<div className="flex items-start gap-3">
+				<Logo className="size-9" />
+				<div>
+					<div className="text-[15px] font-semibold">calqnotes</div>
+					<p className="text-[13px] text-muted-foreground">{t("aboutText")}</p>
+				</div>
+			</div>
+			<ul className="flex flex-col">
+				{links.map(({ href, label, icon: Icon }) => (
+					<li key={href}>
+						<a
+							href={href}
+							target="_blank"
+							rel="noreferrer"
+							className={cn(
+								"flex items-center gap-3 rounded-md px-2 text-sm hover:bg-accent [&_svg]:size-4 [&_svg]:text-muted-foreground",
+								touch ? "min-h-11" : "min-h-9",
+							)}
+						>
+							<Icon aria-hidden />
+							<span className="flex-1">{label}</span>
+							<ExternalLink aria-hidden />
+						</a>
+					</li>
+				))}
+			</ul>
+			<a
+				href={BUILD.commitUrl}
+				target="_blank"
+				rel="noreferrer"
+				className="self-start text-xs text-muted-foreground tabular-nums hover:text-foreground"
+			>
+				{t("version", { date })}
+				{BUILD.shortCommit && ` · ${BUILD.shortCommit}`}
+			</a>
 		</div>
 	);
 }

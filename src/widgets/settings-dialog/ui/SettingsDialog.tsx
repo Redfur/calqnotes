@@ -6,10 +6,10 @@ import { InstallSection } from "@/features/install-app";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/shared/lib/utils";
 import { TRANS_NS } from "..";
-import { DataSection, EditorSection, FormatSection, LookSection } from "./sections";
+import { AboutSection, DataSection, EditorSection, FormatSection, LookSection } from "./sections";
 
-type Tab = "format" | "look" | "editor" | "app" | "data";
-const TABS: Tab[] = ["format", "look", "editor", "app", "data"];
+type Tab = "format" | "look" | "editor" | "app" | "data" | "about";
+const TABS: Tab[] = ["format", "look", "editor", "app", "data", "about"];
 
 interface SettingsDialogProps {
 	open: boolean;
@@ -21,6 +21,7 @@ function Section({ tab, touch }: { tab: Tab; touch?: boolean }) {
 	if (tab === "look") return <LookSection touch={touch} />;
 	if (tab === "editor") return <EditorSection />;
 	if (tab === "app") return <InstallSection touch={touch} />;
+	if (tab === "about") return <AboutSection touch={touch} />;
 	return <DataSection />;
 }
 
@@ -55,15 +56,17 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
 							</DialogClose>
 							<DialogTitle className="text-[17px] font-semibold">{t("title")}</DialogTitle>
 						</div>
-						<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-10">
-							{TABS.map((tb) => (
-								<section key={tb} className="border-b py-5 last:border-0">
-									<h2 className="mb-4 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-										{t(`tab.${tb}`)}
-									</h2>
-									<Section tab={tb} touch />
-								</section>
-							))}
+						<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+							<div className="scroll-fill px-4 pb-10">
+								{TABS.map((tb) => (
+									<section key={tb} className="border-b py-5 last:border-0">
+										<h2 className="mb-4 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+											{t(`tab.${tb}`)}
+										</h2>
+										<Section tab={tb} touch />
+									</section>
+								))}
+							</div>
 						</div>
 					</div>
 				) : (

@@ -78,6 +78,10 @@ export const calqTheme = EditorView.theme({
 		transition: "background-color .3s",
 	},
 	".cm-calq-chip:hover, .cm-calq-chip:focus-visible": { backgroundColor: "var(--result-hover)" },
+	// Короткая заметка на тач-экране тоже прокручивается и пружинит (см. .scroll-fill в index.css)
+	"@media (pointer: coarse)": {
+		".cm-content": { minHeight: "calc(100% + 1px)" },
+	},
 	"@media (max-width: 767px)": {
 		".cm-content": { padding: "12px 16px 24px" },
 		".cm-calq-chip": { height: "28px", padding: "0 10px", borderRadius: "8px", fontSize: "15px", marginLeft: "8px" },
