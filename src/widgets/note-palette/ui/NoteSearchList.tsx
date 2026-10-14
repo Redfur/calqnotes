@@ -105,7 +105,7 @@ export function NoteSearchList({
 				<span className="text-xs">{t("count", { count: hits.length })}</span>
 			</div>
 
-			<Command.List className="min-h-0 flex-1 overflow-y-auto p-1.5 sm:max-h-[470px]">
+			<Command.List className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-1.5 sm:max-h-[470px]">
 				{hits.length === 0 && (
 					<div className="px-4 py-7 text-center text-sm text-muted-foreground">
 						{t("nothingFound", { q: query.trim() })}

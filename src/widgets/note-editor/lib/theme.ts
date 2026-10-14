@@ -13,6 +13,8 @@ export const calqTheme = EditorView.theme({
 		fontFamily: "var(--editor-font)",
 		lineHeight: "calc(var(--editor-line-height) + var(--editor-line-boost))",
 		overflow: "auto",
+		// Докрутили до края — инерция не уходит странице
+		overscrollBehavior: "contain",
 	},
 	".cm-content": {
 		maxWidth: "760px",

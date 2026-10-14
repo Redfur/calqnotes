@@ -55,7 +55,7 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
 							</DialogClose>
 							<DialogTitle className="text-[17px] font-semibold">{t("title")}</DialogTitle>
 						</div>
-						<div className="min-h-0 flex-1 overflow-y-auto px-4 pb-10">
+						<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-10">
 							{TABS.map((tb) => (
 								<section key={tb} className="border-b py-5 last:border-0">
 									<h2 className="mb-4 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
@@ -85,7 +85,7 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
 								</button>
 							))}
 						</nav>
-						<div className="min-h-0 overflow-y-auto p-6">
+						<div className="min-h-0 overflow-y-auto overscroll-contain p-6">
 							<h2 className="mb-5 text-[17px] font-semibold">{t(`tab.${tab}`)}</h2>
 							<Section tab={tab} />
 						</div>
