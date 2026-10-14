@@ -1,0 +1,36 @@
+export const installAppTranslations = {
+	ru: {
+		title: "Приложение",
+		install: "Установить приложение",
+		installHint: "calqnotes откроется в отдельном окне и будет работать без интернета.",
+		installed: "Приложение установлено",
+		installedHint: "Открывайте calqnotes с главного экрана или из списка приложений.",
+		justInstalled: "Готово: calqnotes установлен",
+		iosHint: "На iPhone и iPad: нажмите «Поделиться» в Safari, затем «На экран „Домой“».",
+		unsupportedHint:
+			"Если браузер умеет устанавливать сайты, выберите «Установить приложение» в его меню (Chrome, Edge, Яндекс Браузер). На iPhone — «Поделиться» → «На экран „Домой“» в Safari.",
+		offline: "Работает без интернета",
+		offlineHint: "Приложение сохранено на устройстве. Заметки всегда хранятся только здесь.",
+		offlinePending: "Сохраняем приложение для работы без интернета…",
+		offlineReady: "calqnotes готов к работе без интернета",
+		updateAvailable: "Доступна новая версия calqnotes",
+		update: "Обновить",
+	},
+	en: {
+		title: "App",
+		install: "Install app",
+		installHint: "calqnotes will open in its own window and work offline.",
+		installed: "App installed",
+		installedHint: "Open calqnotes from your home screen or app list.",
+		justInstalled: "Done: calqnotes is installed",
+		iosHint: "On iPhone and iPad: tap Share in Safari, then “Add to Home Screen”.",
+		unsupportedHint:
+			"If your browser can install websites, choose “Install app” in its menu (Chrome, Edge). On iPhone, tap Share → “Add to Home Screen” in Safari.",
+		offline: "Works offline",
+		offlineHint: "The app is saved on this device. Notes are always stored only here.",
+		offlinePending: "Saving the app for offline use…",
+		offlineReady: "calqnotes is ready to work offline",
+		updateAvailable: "A new version of calqnotes is available",
+		update: "Update",
+	},
+} as const;

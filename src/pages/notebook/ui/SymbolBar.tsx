@@ -18,23 +18,22 @@ const SYMBOLS = [
 export function SymbolBar() {
 	const { t } = useTranslation(TRANS_NS);
 	return (
-		<div
-			role="toolbar"
-			aria-label={t("symbols")}
-			className="flex shrink-0 gap-1 overflow-x-auto border-t bg-card px-2 py-1.5"
-		>
-			{SYMBOLS.map(([shown, insert, key]) => (
-				<button
-					key={key}
-					type="button"
-					aria-label={t(`symbol.${key}`)}
-					onMouseDown={(e) => e.preventDefault()}
-					onClick={() => editorBridge.insert(insert)}
-					className="size-11 shrink-0 rounded-[10px] bg-muted text-lg active:bg-result-hover"
-				>
-					{shown}
-				</button>
-			))}
+		<div role="toolbar" aria-label={t("symbols")} className="pb-safe shrink-0 border-t bg-card">
+			{/* Клавиши делят ширину поровну и помещаются целиком; на совсем узком экране — прокрутка */}
+			<div className="flex gap-1 overflow-x-auto px-2 py-1.5">
+				{SYMBOLS.map(([shown, insert, key]) => (
+					<button
+						key={key}
+						type="button"
+						aria-label={t(`symbol.${key}`)}
+						onMouseDown={(e) => e.preventDefault()}
+						onClick={() => editorBridge.insert(insert)}
+						className="h-11 min-w-8 flex-1 basis-0 rounded-[10px] bg-muted text-lg active:bg-result-hover"
+					>
+						{shown}
+					</button>
+				))}
+			</div>
 		</div>
 	);
 }

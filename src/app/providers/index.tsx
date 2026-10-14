@@ -4,6 +4,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useNotesStore } from "@/entities/note";
 import { type EditorFont, useSettingsStore } from "@/entities/settings";
+import { UpdateNotifier } from "@/features/install-app";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { i18n, type Language } from "@/shared/lib/i18n";
 import { applyTheme } from "@/shared/lib/theme";
 import "@/shared/i18n";
@@ -50,12 +52,18 @@ function SettingsEffects() {
 }
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
+	// На телефоне снизу клавиатура и строка символов — тосты показываем под шапкой
+	const isMobile = useIsMobile();
 	return (
 		<I18nextProvider i18n={i18n}>
 			<TooltipProvider>
 				<SettingsEffects />
 				{children}
-				<Toaster position="bottom-center" />
+				<UpdateNotifier />
+				<Toaster
+					position={isMobile ? "top-center" : "bottom-center"}
+					mobileOffset={{ top: "calc(env(safe-area-inset-top) + 64px)" }}
+				/>
 			</TooltipProvider>
 		</I18nextProvider>
 	);

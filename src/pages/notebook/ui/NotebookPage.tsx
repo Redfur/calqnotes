@@ -81,7 +81,7 @@ export function NotebookPage() {
 	}, [saveNow, remove, paletteOpen]);
 
 	if (!initialized || !note) {
-		return <div className="flex h-svh items-center justify-center text-muted-foreground">{t("loading")}</div>;
+		return <div className="app-screen flex items-center justify-center text-muted-foreground">{t("loading")}</div>;
 	}
 
 	const format = effectiveFormat(settings.numberFormat, note.precision);
@@ -120,7 +120,7 @@ export function NotebookPage() {
 	if (isMobile) {
 		if (helpOpen) {
 			return (
-				<div className="flex h-svh flex-col">
+				<div className="app-screen pb-safe flex flex-col">
 					<HelpPanel
 						format={format}
 						onClose={() => setHelpOpen(false)}
@@ -133,7 +133,7 @@ export function NotebookPage() {
 		}
 		if (mobileView === "list") {
 			return (
-				<div className="flex h-svh flex-col">
+				<div className="app-screen pb-safe flex flex-col">
 					<MobileListHeader onOpenHelp={() => setHelpOpen(true)} onOpenSettings={() => setSettingsOpen(true)} />
 					<NoteSearchList
 						touch
@@ -163,7 +163,7 @@ export function NotebookPage() {
 			);
 		}
 		return (
-			<div className="flex h-svh flex-col">
+			<div className="app-screen flex flex-col">
 				<MobileEditorHeader
 					autosave={settings.editor.autosave}
 					precisionShort={precision.shortLabel}
@@ -185,7 +185,7 @@ export function NotebookPage() {
 	}
 
 	return (
-		<div className="flex h-svh flex-col">
+		<div className="app-screen flex flex-col">
 			<AppHeader
 				titleRef={titleRef}
 				autosave={settings.editor.autosave}
