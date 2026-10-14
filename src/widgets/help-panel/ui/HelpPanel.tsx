@@ -110,7 +110,7 @@ export function HelpPanel({ format, onClose, onOpenExample, className }: HelpPan
 					className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-placeholder"
 				/>
 			</label>
-			<div className="min-h-0 flex-1 overflow-y-auto px-4 pt-2 pb-6">
+			<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-2 pb-6">
 				{sections.length === 0 && <p className="py-6 text-center text-sm text-muted-foreground">{t("nothing")}</p>}
 				{sections.map((s) => (
 					<section key={s.id} className="border-b py-3">

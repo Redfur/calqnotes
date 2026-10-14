@@ -19,6 +19,27 @@
   <!-- Цвет панели браузера = фон приложения (--background) в светлой и тёмной теме -->
   <meta name="theme-color" content="#FBFAF8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161615" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+  <!-- Фон и тема до загрузки приложения, иначе при обновлении страницы мелькает белый.
+       Цвета — --background из src/index.css; логика темы — shared/lib/theme.ts -->
+  <style>
+    html { background: #FBFAF8; }
+    html.dark { background: #161615; color-scheme: dark; }
+  </style>
+  <script>
+    (() => {
+      let theme = "system";
+      try {
+        const saved = JSON.parse(localStorage.getItem("calqnotes-settings") || "null");
+        theme = saved?.state?.theme || localStorage.getItem("calqnotes-theme") || "system";
+      } catch {}
+      const dark = theme === "dark" || (theme !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      if (dark) document.documentElement.classList.add("dark");
+      for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
+        meta.setAttribute("content", dark ? "#161615" : "#FBFAF8");
+      }
+    })();
+  </script>
   <title>calqnotes</title>
 </head>
 
