@@ -172,6 +172,37 @@
 	--radius-2xl: 20px;
 }
 
+/*
+ * Экран приложения: ровно видимая часть окна (см. shared/lib/visual-viewport) — клавиатура
+ * не перекрывает нижнюю панель. Отступы от выреза, скруглений и полоски «домой» — safe-area.
+ */
+.app-screen {
+	position: fixed;
+	inset-inline: 0;
+	top: var(--app-top, 0px);
+	height: var(--app-height, 100dvh);
+	padding-top: env(safe-area-inset-top);
+	padding-left: env(safe-area-inset-left);
+	padding-right: env(safe-area-inset-right);
+}
+
+/* Нижняя панель: над полоской «домой», но без лишнего отступа, когда открыта клавиатура */
+.pb-safe {
+	padding-bottom: env(safe-area-inset-bottom);
+}
+html[data-keyboard="open"] .pb-safe {
+	padding-bottom: 0;
+}
+
+@media (max-width: 767px) {
+	/* iOS увеличивает страницу при фокусе на поле со шрифтом меньше 16px */
+	input,
+	textarea,
+	select {
+		font-size: 16px;
+	}
+}
+
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
@@ -184,6 +215,9 @@
 	body {
 		@apply bg-background text-foreground;
 		margin: 0;
+		/* Без «резинки» и pull-to-refresh: экран приложения неподвижен, прокручивается редактор */
+		overscroll-behavior: none;
+		-webkit-tap-highlight-color: transparent;
 	}
 	button,
 	[role="button"] {

@@ -111,6 +111,7 @@ export function NoteEditor({ noteId, content, onChange, format, editor, classNam
 				view.dispatch({
 					changes: { from, to, insert: text },
 					selection: { anchor: from + text.length },
+					scrollIntoView: true,
 					userEvent: "input",
 				});
 				view.focus();
@@ -128,7 +129,16 @@ export function NoteEditor({ noteId, content, onChange, format, editor, classNam
 			},
 			focus: () => view.focus(),
 		});
+		// Клавиатура на телефоне уменьшает экран — возвращаем курсор в видимую часть
+		const resize = new ResizeObserver(() => {
+			if (!view.hasFocus) return;
+			view.dispatch({
+				effects: EditorView.scrollIntoView(view.state.selection.main.head, { y: "nearest", yMargin: 24 }),
+			});
+		});
+		resize.observe(hostRef.current);
 		return () => {
+			resize.disconnect();
 			registerEditor(null);
 			view.destroy();
 			viewRef.current = null;

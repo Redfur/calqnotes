@@ -9,7 +9,12 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="calqnotes" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- viewport-fit=cover — отступы от вырезов и скруглений задаём сами через env(safe-area-inset-*);
+       interactive-widget=resizes-content — на Android клавиатура уменьшает страницу, а не перекрывает её -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="description" content="Заметки-калькулятор: пишите расчёт строкой, результат появится рядом" />
   <!-- Цвет панели браузера = фон приложения (--background) в светлой и тёмной теме -->
   <meta name="theme-color" content="#FBFAF8" media="(prefers-color-scheme: light)" />

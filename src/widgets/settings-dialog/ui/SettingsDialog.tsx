@@ -2,13 +2,14 @@ import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { InstallSection } from "@/features/install-app";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/shared/lib/utils";
 import { TRANS_NS } from "..";
 import { DataSection, EditorSection, FormatSection, LookSection } from "./sections";
 
-type Tab = "format" | "look" | "editor" | "data";
-const TABS: Tab[] = ["format", "look", "editor", "data"];
+type Tab = "format" | "look" | "editor" | "app" | "data";
+const TABS: Tab[] = ["format", "look", "editor", "app", "data"];
 
 interface SettingsDialogProps {
 	open: boolean;
@@ -19,6 +20,7 @@ function Section({ tab, touch }: { tab: Tab; touch?: boolean }) {
 	if (tab === "format") return <FormatSection touch={touch} />;
 	if (tab === "look") return <LookSection touch={touch} />;
 	if (tab === "editor") return <EditorSection />;
+	if (tab === "app") return <InstallSection touch={touch} />;
 	return <DataSection />;
 }
 
@@ -34,7 +36,7 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
 				className={cn(
 					"gap-0 overflow-hidden p-0",
 					isMobile
-						? "inset-0 top-0 left-0 h-svh max-w-none translate-x-0 translate-y-0 rounded-none sm:max-w-none"
+						? "inset-0 top-0 left-0 h-dvh max-w-none translate-x-0 translate-y-0 rounded-none pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] sm:max-w-none"
 						: "rounded-xl sm:max-w-[760px]",
 				)}
 			>

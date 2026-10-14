@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { lineTranslations } from "@/entities/line/translations";
 import { noteTranslations } from "@/entities/note/translations";
+import { installAppTranslations } from "@/features/install-app/translations";
 import { noteActionsTranslations } from "@/features/note-actions/translations";
 import { precisionPickerTranslations } from "@/features/precision-picker/translations";
 import { notebookPageTranslations } from "@/pages/notebook/translations";
@@ -15,6 +16,7 @@ const ALL: Record<string, Record<string, Record<string, string>>> = {
 	common: commonTranslations,
 	line: lineTranslations,
 	note: noteTranslations,
+	"install-app": installAppTranslations,
 	"note-actions": noteActionsTranslations,
 	"precision-picker": precisionPickerTranslations,
 	"notebook-page": notebookPageTranslations,
