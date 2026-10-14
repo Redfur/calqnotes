@@ -27,6 +27,7 @@ export const helpPanelTranslations = {
 		"key.copy": "по результату — скопировать его",
 		click: "Клик",
 		example: "Открыть заметку-пример",
+		repo: "Исходный код на GitHub",
 	},
 	en: {
 		title: "Cheat sheet",
@@ -56,5 +57,6 @@ export const helpPanelTranslations = {
 		"key.copy": "on a result copies it",
 		click: "Click",
 		example: "Open the example note",
+		repo: "Source code on GitHub",
 	},
 } as const;

@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process";
 import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -10,8 +11,22 @@ import tsconfigPaths from "vite-tsconfig-paths";
 // GitHub Pages (project site): задать VITE_BASE_PATH=/repo-name/ в CI; локально — '/'.
 const base = process.env.VITE_BASE_PATH?.replace(/\/?$/, "/") ?? "/";
 
+/** Коммит сборки — показывается в «Настройки → О приложении» */
+function buildCommit(): string {
+	if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+	try {
+		return execSync("git rev-parse HEAD").toString().trim();
+	} catch {
+		return "";
+	}
+}
+
 export default defineConfig({
 	base,
+	define: {
+		__BUILD_COMMIT__: JSON.stringify(buildCommit()),
+		__BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+	},
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "src"),

@@ -1,8 +1,9 @@
-import { Plus, Search, X } from "lucide-react";
+import { Github, Plus, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Kbd } from "@/components/ui/kbd";
 import { evaluateNotebook, formatLineResult, textToLines } from "@/entities/line";
+import { REPO_URL } from "@/shared/config/app";
 import { editorBridge } from "@/shared/lib/editor-bridge";
 import type { NumberFormat } from "@/shared/lib/format-number";
 import { cn } from "@/shared/lib/utils";
@@ -110,66 +111,80 @@ export function HelpPanel({ format, onClose, onOpenExample, className }: HelpPan
 					className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-placeholder"
 				/>
 			</label>
-			<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-2 pb-6">
-				{sections.length === 0 && <p className="py-6 text-center text-sm text-muted-foreground">{t("nothing")}</p>}
-				{sections.map((s) => (
-					<section key={s.id} className="border-b py-3">
-						<h3 className="text-sm font-semibold">{s.title}</h3>
-						{s.note && <p className="mt-0.5 text-[13px] text-muted-foreground">{s.note}</p>}
-						<ul className="mt-2 flex flex-col">
-							{s.items.map((e) => (
-								<li key={e.src} className="group/ex flex min-h-9 items-center gap-2 rounded-md px-1.5 hover:bg-accent">
-									<code className="min-w-0 flex-1 truncate font-sans text-sm">{e.src}</code>
-									{e.res && (
-										<span className="rounded-sm bg-muted px-2 text-[13px] leading-[22px] font-medium tabular-nums">
-											{e.res}
-										</span>
-									)}
-									{e.note && <span className="text-xs text-muted-foreground">{e.note}</span>}
-									<button
-										type="button"
-										aria-label={t("insertExample", { src: e.src })}
-										onClick={() => editorBridge.appendLine(e.src)}
-										className="inline-flex h-7 items-center gap-1 rounded-sm px-2 text-xs text-link opacity-0 group-hover/ex:opacity-100 focus-visible:opacity-100 max-md:opacity-100 hover:bg-card"
+			<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+				<div className="scroll-fill px-4 pt-2 pb-6">
+					{sections.length === 0 && <p className="py-6 text-center text-sm text-muted-foreground">{t("nothing")}</p>}
+					{sections.map((s) => (
+						<section key={s.id} className="border-b py-3">
+							<h3 className="text-sm font-semibold">{s.title}</h3>
+							{s.note && <p className="mt-0.5 text-[13px] text-muted-foreground">{s.note}</p>}
+							<ul className="mt-2 flex flex-col">
+								{s.items.map((e) => (
+									<li
+										key={e.src}
+										className="group/ex flex min-h-9 items-center gap-2 rounded-md px-1.5 hover:bg-accent"
 									>
-										<Plus className="size-3" aria-hidden />
-										{t("insert")}
-									</button>
-								</li>
-							))}
-						</ul>
-					</section>
-				))}
-				{!query && (
-					<section className="py-3">
-						<h3 className="text-sm font-semibold">{t("keys")}</h3>
-						<dl className="mt-2 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 text-[13px]">
-							{keys.map(([combo, label]) => (
-								<div key={label} className="contents">
-									<dt className="flex gap-1">
-										{combo.map((k) => (
-											<Kbd key={k} className={kbd}>
-												{k}
-											</Kbd>
-										))}
-									</dt>
-									<dd>{label}</dd>
-								</div>
-							))}
-							<dt>
-								<Kbd className={kbd}>{t("click")}</Kbd>
-							</dt>
-							<dd>{t("key.copy")}</dd>
-						</dl>
-						<button
-							type="button"
-							onClick={onOpenExample}
-							className="mt-4 h-9 rounded-md border border-input bg-card px-3 text-[13px] hover:bg-accent"
-						>
-							{t("example")}
-						</button>
-					</section>
-				)}
+										<code className="min-w-0 flex-1 truncate font-sans text-sm">{e.src}</code>
+										{e.res && (
+											<span className="rounded-sm bg-muted px-2 text-[13px] leading-[22px] font-medium tabular-nums">
+												{e.res}
+											</span>
+										)}
+										{e.note && <span className="text-xs text-muted-foreground">{e.note}</span>}
+										<button
+											type="button"
+											aria-label={t("insertExample", { src: e.src })}
+											onClick={() => editorBridge.appendLine(e.src)}
+											className="inline-flex h-7 items-center gap-1 rounded-sm px-2 text-xs text-link opacity-0 group-hover/ex:opacity-100 focus-visible:opacity-100 max-md:opacity-100 hover:bg-card"
+										>
+											<Plus className="size-3" aria-hidden />
+											{t("insert")}
+										</button>
+									</li>
+								))}
+							</ul>
+						</section>
+					))}
+					{!query && (
+						<section className="py-3">
+							<h3 className="text-sm font-semibold">{t("keys")}</h3>
+							<dl className="mt-2 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 text-[13px]">
+								{keys.map(([combo, label]) => (
+									<div key={label} className="contents">
+										<dt className="flex gap-1">
+											{combo.map((k) => (
+												<Kbd key={k} className={kbd}>
+													{k}
+												</Kbd>
+											))}
+										</dt>
+										<dd>{label}</dd>
+									</div>
+								))}
+								<dt>
+									<Kbd className={kbd}>{t("click")}</Kbd>
+								</dt>
+								<dd>{t("key.copy")}</dd>
+							</dl>
+							<button
+								type="button"
+								onClick={onOpenExample}
+								className="mt-4 h-9 rounded-md border border-input bg-card px-3 text-[13px] hover:bg-accent"
+							>
+								{t("example")}
+							</button>
+						</section>
+					)}
+					<a
+						href={REPO_URL}
+						target="_blank"
+						rel="noreferrer"
+						className="mt-2 flex items-center gap-2 border-t pt-4 text-[13px] text-muted-foreground hover:text-foreground"
+					>
+						<Github className="size-4" aria-hidden />
+						{t("repo")}
+					</a>
+				</div>
 			</div>
 		</aside>
 	);
