@@ -93,3 +93,11 @@ interface LineError {
 ## Тесты
 
 Vitest (`npm test`): движок на выражениях из макетов и форматтер чисел.
+
+## Публикация и контейнер
+
+GitHub Pages обновляется из `main` через `.github/workflows/deploy.yml`. Отдельный workflow `.github/workflows/container.yml` по тегу `vX.Y.Z` (либо ручному запуску с существующим тегом) проверяет совпадение версии с `package.json`, запускает проверки, тесты и сборку, затем публикует Linux/amd64-образ `ghcr.io/redfur/calqnotes:vX.Y.Z` и `:latest`.
+
+`Dockerfile` собирает приложение на Node 22 с `VITE_BASE_PATH=/`; SHA выбранного коммита передаётся аргументом `GITHUB_SHA` для раздела «О приложении». Runtime — nginx со статическими файлами `dist`, healthcheck и правилами кеширования для PWA. HTML, service worker и манифест перепроверяются; хешированные `/assets/` кешируются надолго, отсутствующие ресурсы возвращают 404.
+
+`compose.yaml` запускает опубликованную версию на `127.0.0.1:8081` (порт настраивается). HTTPS обеспечивает внешний reverse proxy. Серверной БД и томов нет: заметки остаются в IndexedDB браузера и привязаны к origin.

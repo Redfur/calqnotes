@@ -1,0 +1,11 @@
+services:
+  calqnotes:
+    image: ghcr.io/redfur/calqnotes:${CALQNOTES_VERSION:?Укажите CALQNOTES_VERSION, например v1.0.0}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${CALQNOTES_PORT:-8081}:80"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

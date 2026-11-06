@@ -1,0 +1,17 @@
+.git
+.github
+node_modules
+dist
+dist-ssr
+dev-dist
+coverage
+**/*.tsbuildinfo
+.env
+.env.*
+*.local
+.aws
+.agents
+.codex
+.claude
+.cursor
+.vscode

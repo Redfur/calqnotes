@@ -96,6 +96,46 @@ npx vite preview # проверить сборку: офлайн и устано
 
 Каждый push в `main` публикуется на GitHub Pages.
 
+## Docker и релизы
+
+Отдельный workflow [container.yml](.github/workflows/container.yml) по push тега `vX.Y.Z` проверяет версию, запускает `npm run check`, `npm test` и сборку, затем публикует Linux/amd64-образы:
+
+```text
+ghcr.io/redfur/calqnotes:vX.Y.Z
+ghcr.io/redfur/calqnotes:latest
+```
+
+Перед релизом обновите версию в `package.json` и `package-lock.json` командой `npm version X.Y.Z --no-git-tag-version`, закоммитьте изменения, создайте тег `vX.Y.Z` на этом коммите и отправьте коммит и тег в GitHub. Контейнер собирается из исходников тега; версия тега должна совпадать с `package.json`. Через Actions → Publish container to GHCR → Run workflow можно повторить публикацию существующего тега. Тег должен содержать Dockerfile и конфигурацию nginx.
+
+Публикация использует встроенный `GITHUB_TOKEN` с `packages: write`, отдельный секрет не нужен. После первой публикации проверьте видимость пакета в GHCR: для скачивания без авторизации сделайте пакет public; для private-пакета на сервере нужен `docker login ghcr.io` с доступом на чтение. `latest` обозначает последнюю успешную публикацию, в том числе ручную пересборку старой версии.
+
+### Запуск на сервере
+
+Скопируйте [compose.yaml](compose.yaml) на сервер и создайте рядом `.env` с уже опубликованной версией:
+
+```ini
+CALQNOTES_VERSION=v1.0.0
+CALQNOTES_PORT=8081
+```
+
+```bash
+docker compose pull calqnotes
+docker compose up -d --wait
+```
+
+Для обновления или отката измените версию в `.env` и повторите эти команды. Без `CALQNOTES_VERSION` Compose остановится. Публикация образа сама по себе не обновляет работающие контейнеры.
+
+Приложение слушает `127.0.0.1:8081`; внешний nginx или другой reverse proxy должен направлять на этот адрес запросы вашего домена и обеспечивать HTTPS для PWA. Порт можно изменить через `CALQNOTES_PORT`. Node и исходники на сервере не нужны. Том с данными тоже не требуется: заметки хранятся в браузере. При смене домена прежние заметки автоматически не переносятся; экспорта в приложении пока нет.
+
+### Локальная проверка
+
+```bash
+docker build --build-arg GITHUB_SHA="$(git rev-parse HEAD)" -t calqnotes:local .
+docker run --rm -p 127.0.0.1:8081:80 calqnotes:local
+```
+
+Откройте `http://localhost:8081`. Сборка внутри образа использует базу `/`, независимо от пути GitHub Pages. В nginx настроены кеширование PWA и healthcheck. Аргумент `GITHUB_SHA` сохраняет ссылку на коммит в разделе «О приложении», поскольку `.git` исключён из Docker-контекста.
+
 ## Спасибо
 
 Идея — из [Calque](https://github.com/grimalschi/calque), calqnotes — его современная переработка.
